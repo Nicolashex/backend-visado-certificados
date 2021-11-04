@@ -9,7 +9,7 @@ public class Documento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id",unique = true, nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name="ruta",unique = true, nullable = false)
     private String ruta;
@@ -20,17 +20,16 @@ public class Documento {
     public Documento() {
     }
 
-    public Documento(Integer id, String ruta, String tipo) {
-        this.id = id;
+    public Documento(String ruta, String tipo) {
         this.ruta = ruta;
         this.tipo = tipo;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

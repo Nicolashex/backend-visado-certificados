@@ -16,10 +16,10 @@ public class Solicitud {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id",nullable = false,unique = true)
-    private Integer id;
+    private Long id;
 
     @Column(name="idProfesional",nullable = true)
-    private Integer idProfesional;
+    private Long idProfesional;
 
     @Column(name="nombrePaciente",nullable = false)
     private String nombrePaciente;
@@ -83,8 +83,7 @@ public class Solicitud {
     public Solicitud() {
     }
 
-    public Solicitud(Integer id, Integer idProfesional, String nombrePaciente, String rutPaciente, String carrera, String nombreMedicoTratante, LocalDate fechaInicioReposo, LocalDate fechaFinReposo, String motivo, String rutaCertificadoMedico, String estado, String resolucion, String comentario, LocalDateTime fechaInicioSolicitud, LocalDateTime fechaFinSolicitud, LocalDateTime ingresoEvaluacion, LocalDateTime respuestaEvaluacion, List<Documento> documentos, User estudiante) {
-        this.id = id;
+    public Solicitud(Long idProfesional, String nombrePaciente, String rutPaciente, String carrera, String nombreMedicoTratante, LocalDate fechaInicioReposo, LocalDate fechaFinReposo, String motivo, String rutaCertificadoMedico, String estado, String resolucion, String comentario, LocalDateTime fechaInicioSolicitud, LocalDateTime fechaFinSolicitud, LocalDateTime ingresoEvaluacion, LocalDateTime respuestaEvaluacion, List<Documento> documentos, User estudiante) {
         this.idProfesional = idProfesional;
         this.nombrePaciente = nombrePaciente;
         this.rutPaciente = rutPaciente;
@@ -121,19 +120,19 @@ public class Solicitud {
         this.estudiante = estudiante;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getIdProfesional() {
+    public Long getIdProfesional() {
         return idProfesional;
     }
 
-    public void setIdProfesional(Integer idProfesional) {
+    public void setIdProfesional(Long idProfesional) {
         this.idProfesional = idProfesional;
     }
 
