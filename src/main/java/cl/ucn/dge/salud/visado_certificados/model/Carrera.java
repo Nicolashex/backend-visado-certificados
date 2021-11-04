@@ -10,7 +10,7 @@ public class Carrera {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id",unique = true, nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name="nombre",unique = true, nullable = false)
     private String nombre;
@@ -27,8 +27,7 @@ public class Carrera {
     public Carrera() {
     }
 
-    public Carrera(Integer id, String nombre, String sede, String departamento, List<User> estudiantes) {
-        this.id = id;
+    public Carrera(String nombre, String sede, String departamento, List<User> estudiantes) {
         this.nombre = nombre;
         this.sede = sede;
         this.departamento = departamento;
@@ -43,11 +42,11 @@ public class Carrera {
         this.estudiantes = estudiantes;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

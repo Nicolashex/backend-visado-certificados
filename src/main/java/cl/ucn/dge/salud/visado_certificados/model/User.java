@@ -11,7 +11,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id",nullable = false,unique = true)
-    private Integer id;
+    private Long id;
 
     @Column(name="correo",nullable = false,unique = true)
     private String correo;
@@ -56,8 +56,7 @@ public class User {
     public User() {
     }
 
-    public User(Integer id, String correo, String rut, String contrasena, String nombre, String primerApellido, String segundoApellido, String telefono, Carrera carrera, String cargo, String profesion, Collection<Rol> roles) {
-        this.id = id;
+    public User(String correo, String rut, String contrasena, String nombre, String primerApellido, String segundoApellido, String telefono, Carrera carrera, String cargo, String profesion, Collection<Rol> roles) {
         this.correo = correo;
         this.rut = rut;
         this.contrasena = contrasena;
@@ -111,11 +110,11 @@ public class User {
         this.roles = roles;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
