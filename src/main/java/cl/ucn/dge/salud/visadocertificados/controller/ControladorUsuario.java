@@ -1,6 +1,7 @@
 package cl.ucn.dge.salud.visadocertificados.controller;
 
 import cl.ucn.dge.salud.visadocertificados.dto.RegistroUserDto;
+import cl.ucn.dge.salud.visadocertificados.model.User;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,20 +35,17 @@ public class ControladorUsuario {
 
     @PostMapping
     public String registroUsuario(@ModelAttribute("usuario") RegistroUserDto registroUserDto, RedirectAttributes redirectAttributes){
-        /**
-        if(!servicioUser.correoDisponible(registroUserDto.getCorreo())){
+
+        if(servicioUser.rutDisponible(registroUserDto.getRut())){
+            redirectAttributes.addFlashAttribute("error", "Rut de usuario ya está en uso, intenta nuevamente");
+            return "redirect:/registro?error_rut";
+        }else if(servicioUser.correoDisponible(registroUserDto.getCorreo())){
             redirectAttributes.addFlashAttribute("error", "Correo de usuario ya está en uso, intenta nuevamente");
-        }else if(!servicioUser.rutDisponible(registroUserDto.getRut())){
-            redirectAttributes.addFlashAttribute("error", "Rut ya está en uso, intenta nuevamente");
+            return "redirect:/registro?error_correo";
         }else{
             servicioUser.save(registroUserDto);
             return "redirect:/registro?success";
         }
-
-        return "redirect:/registro";
-        */
-        servicioUser.save(registroUserDto);
-        return "redirect:/registro?success";
     }
 
 

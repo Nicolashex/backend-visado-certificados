@@ -7,4 +7,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public interface ServicioUser extends UserDetailsService {
 
     User save(RegistroUserDto registroUserDto);
+
+    boolean correoDisponible(String correo);
+
+    boolean rutDisponible(String rut);
+
 }

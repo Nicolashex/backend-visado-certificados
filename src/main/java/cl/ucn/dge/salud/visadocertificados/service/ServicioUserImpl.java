@@ -33,6 +33,10 @@ public class ServicioUserImpl implements ServicioUser{
     @Override
     public User save(RegistroUserDto registroUserDto) {
 
+        if(repositorioUser.existsByCorreo(registroUserDto.getCorreo())){
+            return null;
+        }
+
         User user = new User(
                 registroUserDto.getCorreo(),
                 registroUserDto.getRut(),
@@ -50,9 +54,19 @@ public class ServicioUserImpl implements ServicioUser{
     }
 
     @Override
+    public boolean correoDisponible(String correo) {
+        return repositorioUser.existsByCorreo(correo);
+    }
+
+    @Override
+    public boolean rutDisponible(String rut) {
+        return repositorioUser.existsByRut(rut);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 
-        User user = repositorioUser.buscarPorCorreo(s);
+        User user = repositorioUser.findUserByCorreo(s);
 
         if(user == null){
             throw new UsernameNotFoundException("Correo o contraseña incorrectos");
