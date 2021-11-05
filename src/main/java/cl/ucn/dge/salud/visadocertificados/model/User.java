@@ -1,4 +1,4 @@
-package cl.ucn.dge.salud.visado_certificados.model;
+package cl.ucn.dge.salud.visadocertificados.model;
 
 
 import javax.persistence.*;
@@ -19,7 +19,7 @@ public class User {
     @Column(name="rut",nullable = false,unique = true)
     private String rut;
 
-    @Column(name="contrasena",nullable = false,length = 12)
+    @Column(name="contrasena",nullable = false)
     private String contrasena;
 
     @Column(name="nombre",nullable = false)
@@ -48,9 +48,9 @@ public class User {
     @JoinTable(
             name = "roles_usuarios",
             joinColumns = @JoinColumn(
-                    name = "usuarios", referencedColumnName = "id"),
+                    name = "usuario_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
-                    name = "roles", referencedColumnName = "id"))
+                    name = "rol_id", referencedColumnName = "id"))
     private Collection<Rol> roles;
 
     public User() {

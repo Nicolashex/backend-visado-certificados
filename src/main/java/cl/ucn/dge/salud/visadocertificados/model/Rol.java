@@ -1,4 +1,4 @@
-package cl.ucn.dge.salud.visado_certificados.model;
+package cl.ucn.dge.salud.visadocertificados.model;
 
 import javax.persistence.*;
 
@@ -11,14 +11,13 @@ public class Rol {
     @Column(name="id",unique = true,nullable = false)
     private Long id;
 
-    @Column(name="nombreRol",unique = true,nullable = false)
+    @Column(name="nombreRol", nullable = false)
     private String nombreRol;
 
     public Rol() {
     }
 
-    public Rol(Long id, String nombreRol) {
-        this.id = id;
+    public Rol(String nombreRol) {
         this.nombreRol = nombreRol;
     }
 

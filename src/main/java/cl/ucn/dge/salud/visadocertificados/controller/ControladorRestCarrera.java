@@ -1,7 +1,7 @@
-package cl.ucn.dge.salud.visado_certificados.controller;
+package cl.ucn.dge.salud.visadocertificados.controller;
 
-import cl.ucn.dge.salud.visado_certificados.model.Carrera;
-import cl.ucn.dge.salud.visado_certificados.service.ServicioCarrera;
+import cl.ucn.dge.salud.visadocertificados.model.Carrera;
+import cl.ucn.dge.salud.visadocertificados.service.ServicioCarrera;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

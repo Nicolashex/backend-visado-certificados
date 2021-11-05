@@ -1,4 +1,4 @@
-package cl.ucn.dge.salud.visado_certificados;
+package cl.ucn.dge.salud.visadocertificados;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

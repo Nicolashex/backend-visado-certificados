@@ -1,13 +1,11 @@
-package cl.ucn.dge.salud.visado_certificados.model;
+package cl.ucn.dge.salud.visadocertificados.model;
 
-import jdk.jfr.Timestamp;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "solicitudes")

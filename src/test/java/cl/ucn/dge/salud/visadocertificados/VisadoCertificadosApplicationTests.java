@@ -1,4 +1,4 @@
-package cl.ucn.dge.salud.visado_certificados;
+package cl.ucn.dge.salud.visadocertificados;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

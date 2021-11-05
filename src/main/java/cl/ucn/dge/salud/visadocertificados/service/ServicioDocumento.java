@@ -1,6 +1,6 @@
-package cl.ucn.dge.salud.visado_certificados.service;
+package cl.ucn.dge.salud.visadocertificados.service;
 
-import cl.ucn.dge.salud.visado_certificados.repository.RepositorioDocumento;
+import cl.ucn.dge.salud.visadocertificados.repository.RepositorioDocumento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

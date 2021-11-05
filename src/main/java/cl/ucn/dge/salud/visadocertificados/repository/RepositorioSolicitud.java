@@ -1,7 +1,7 @@
-package cl.ucn.dge.salud.visado_certificados.repository;
+package cl.ucn.dge.salud.visadocertificados.repository;
 
-import cl.ucn.dge.salud.visado_certificados.model.Solicitud;
-import cl.ucn.dge.salud.visado_certificados.model.User;
+import cl.ucn.dge.salud.visadocertificados.model.Solicitud;
+import cl.ucn.dge.salud.visadocertificados.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

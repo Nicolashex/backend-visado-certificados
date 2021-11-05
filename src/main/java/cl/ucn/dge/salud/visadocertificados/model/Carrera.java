@@ -1,4 +1,4 @@
-package cl.ucn.dge.salud.visado_certificados.model;
+package cl.ucn.dge.salud.visadocertificados.model;
 
 import javax.persistence.*;
 import java.util.List;
