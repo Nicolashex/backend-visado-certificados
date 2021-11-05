@@ -82,6 +82,10 @@ public class ServicioUserImpl implements ServicioUser{
         );
     }
 
+    public User getUsuarioById(Long idAlumno) {
+        return repositorioUser.getById(idAlumno);
+    }
+
     /**
      * Reglas segun rol
      * @return

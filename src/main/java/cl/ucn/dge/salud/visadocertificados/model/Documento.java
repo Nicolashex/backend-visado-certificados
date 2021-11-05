@@ -1,5 +1,7 @@
 package cl.ucn.dge.salud.visadocertificados.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,45 +9,65 @@ import javax.persistence.*;
 public class Documento {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id",unique = true, nullable = false)
-    private Long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
 
-    @Column(name="ruta",unique = true, nullable = false)
-    private String ruta;
+    @Lob
+    private byte[] data;
 
+    @Enumerated(EnumType.STRING)
     @Column(name="tipo", nullable = true)
-    private String tipo;
+    private posiblesTiposDocumentos tipo;
+
+    @Column(name="tipo_archivo", nullable = true)
+    private String tipoArchivo;
 
     public Documento() {
     }
 
-    public Documento(String ruta, String tipo) {
-        this.ruta = ruta;
+    public Documento(byte[] data, posiblesTiposDocumentos tipo, String tipoArchivo) {
+        this.data = data;
         this.tipo = tipo;
+        this.tipoArchivo = tipoArchivo;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getRuta() {
-        return ruta;
+    public byte[] getData() {
+        return data;
     }
 
-    public void setRuta(String ruta) {
-        this.ruta = ruta;
+    public void setData(byte[] data) {
+        this.data = data;
     }
 
-    public String getTipo() {
+    public posiblesTiposDocumentos getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(posiblesTiposDocumentos tipo) {
         this.tipo = tipo;
+    }
+
+    public String getTipoArchivo() {
+        return tipoArchivo;
+    }
+
+    public void setTipoArchivo(String tipoArchivo) {
+        this.tipoArchivo = tipoArchivo;
+    }
+
+
+    public enum posiblesTiposDocumentos {
+
+        CERTIFICADO,
+        RESPALDO
     }
 }
