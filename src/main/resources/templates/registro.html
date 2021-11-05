@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Registro</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+
+</head>
+<body>
+    <!--navbar-->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#" th:href="@{/}">Registro</a>
+            </div>
+        </div>
+    </nav>
+
+    <br>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+
+                <h1>Registro de usuario</h1>
+
+                <!--mensaje exitos-->
+                <div th:if="${param.success}">
+                    <div class="alert alert-info">
+                        Registro con exito!!
+                    </div>
+                </div>
+
+                <form th:action="@{registro}" method="post" th:object="${usuario}">
+                    <div class="form-group">
+                        <label class="control-label" for="correo">
+                            Correo
+                        </label>
+                        <input id="correo" class="form-control" th:field="*{correo}" required autofocus="autofocus">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="rut">
+                            Rut
+                        </label>
+                        <input id="rut" class="form-control" th:field="*{rut}" required autofocus="autofocus">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="nombre">
+                            Nombre
+                        </label>
+                        <input id="nombre" class="form-control" th:field="*{nombre}" required autofocus="autofocus">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="primerApellido">
+                            Apellido
+                        </label>
+                        <input id="primerApellido" class="form-control" th:field="*{primerApellido}" required autofocus="autofocus">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="segundoApellido">
+                            Segundo Apellido
+                        </label>
+                        <input id="segundoApellido" class="form-control" th:field="*{segundoApellido}" required autofocus="autofocus">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="telefono">
+                            Numero Telefonico
+                        </label>
+                        <input id="telefono" class="form-control" th:field="*{telefono}" required autofocus="autofocus">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="carrera">
+                            Carrera (opcional)
+                        </label>
+                        <input id="carrera" class="form-control" th:field="*{carrera}" autofocus="autofocus">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="cargo">
+                            Cargo (opcional)
+                        </label>
+                        <input id="cargo" class="form-control" th:field="*{cargo}" autofocus="autofocus">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="profesion">
+                            Profesion (opcional)
+                        </label>
+                        <input id="profesion" class="form-control" th:field="*{profesion}" autofocus="autofocus">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="contrasena">
+                            Contraseña
+                        </label>
+                        <input id="contrasena" class="form-control" th:field="*{contrasena}" type="password">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="contrasena2">
+                            Repita Contraseña
+                        </label>
+                        <input id="contrasena2" class="form-control" type="password">
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">Registrar</button>
+                        <span>Ir al inicio de sesion <a href="@{/login}">IR</a> </span>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!--form-->
+
+
+</body>
+</html>
