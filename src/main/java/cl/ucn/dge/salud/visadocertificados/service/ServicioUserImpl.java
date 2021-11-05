@@ -1,8 +1,10 @@
 package cl.ucn.dge.salud.visadocertificados.service;
 
 import cl.ucn.dge.salud.visadocertificados.dto.RegistroUserDto;
+import cl.ucn.dge.salud.visadocertificados.model.Carrera;
 import cl.ucn.dge.salud.visadocertificados.model.Rol;
 import cl.ucn.dge.salud.visadocertificados.model.User;
+import cl.ucn.dge.salud.visadocertificados.repository.RepositorioCarrera;
 import cl.ucn.dge.salud.visadocertificados.repository.RepositorioUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,6 +25,9 @@ public class ServicioUserImpl implements ServicioUser{
     private RepositorioUser repositorioUser;
 
     @Autowired
+    private RepositorioCarrera repositorioCarrera;
+
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     public ServicioUserImpl(RepositorioUser repositorioUser){
@@ -33,9 +38,7 @@ public class ServicioUserImpl implements ServicioUser{
     @Override
     public User save(RegistroUserDto registroUserDto) {
 
-        if(repositorioUser.existsByCorreo(registroUserDto.getCorreo())){
-            return null;
-        }
+        Carrera c = repositorioCarrera.getCarreraById((long) registroUserDto.getCarrera());
 
         User user = new User(
                 registroUserDto.getCorreo(),
@@ -45,7 +48,7 @@ public class ServicioUserImpl implements ServicioUser{
                 registroUserDto.getPrimerApellido(),
                 registroUserDto.getSegundoApellido(),
                 registroUserDto.getTelefono(),
-                registroUserDto.getCarrera(),
+                c,
                 registroUserDto.getCargo(),
                 registroUserDto.getProfesion(),
                 Arrays.asList(new Rol("Estudiante")));

@@ -33,4 +33,16 @@ public class ServicioCarrera {
         }
         return respuesta;
     }
+
+    private Carrera getCarreraById(Long id) throws HttpConnectTimeoutException {
+        Carrera respuesta;
+        try{
+            respuesta =  repositorioCarrera.getCarreraById(id);
+        }catch(Exception e){
+            throw new HttpConnectTimeoutException("Error con el servidor");
+        }
+
+        return respuesta;
+
+    }
 }

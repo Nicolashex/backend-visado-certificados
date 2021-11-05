@@ -14,11 +14,11 @@ public class RegistroUserDto {
     private String primerApellido;
     private String segundoApellido;
     private String telefono;
-    private Carrera carrera;
+    private int carrera;
     private String cargo;
     private String profesion;
 
-    public RegistroUserDto(String correo, String rut, String contrasena, String nombre, String primerApellido, String segundoApellido, String telefono, Carrera carrera, String cargo, String profesion) {
+    public RegistroUserDto(String correo, String rut, String contrasena, String nombre, String primerApellido, String segundoApellido, String telefono, int carrera, String cargo, String profesion) {
         this.correo = correo;
         this.rut = rut;
         this.contrasena = contrasena;
@@ -90,11 +90,11 @@ public class RegistroUserDto {
         this.telefono = telefono;
     }
 
-    public Carrera getCarrera() {
+    public int getCarrera() {
         return carrera;
     }
 
-    public void setCarrera(Carrera carrera) {
+    public void setCarrera(int carrera) {
         this.carrera = carrera;
     }
 
