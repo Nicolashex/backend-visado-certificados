@@ -31,11 +31,11 @@ public class Solicitud {
     @Column(name="nombreMedicoTratante",nullable = false)
     private String nombreMedicoTratante;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="fechaInicioReposo",nullable = false)
     private LocalDate fechaInicioReposo;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="fechaFinReposo",nullable = false)
     private LocalDate fechaFinReposo;
 
@@ -54,20 +54,20 @@ public class Solicitud {
     @Column(name="comentario")
     private String comentario;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @CreationTimestamp
     @Column(name="fechaInicioSolicitud",nullable = false)
     private LocalDateTime fechaInicioSolicitud;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="fechaFinSolicitud")
     private LocalDateTime fechaFinSolicitud;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="IngresoEvaluacion")
     private LocalDateTime IngresoEvaluacion;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="RespuestaEvaluacion")
     private LocalDateTime RespuestaEvaluacion;
 
@@ -81,8 +81,10 @@ public class Solicitud {
     public Solicitud() {
     }
 
-    public Solicitud(Long idProfesional, String nombrePaciente, String rutPaciente, String carrera, String nombreMedicoTratante, LocalDate fechaInicioReposo, LocalDate fechaFinReposo, String motivo, String rutaCertificadoMedico, String estado, String resolucion, String comentario, LocalDateTime fechaInicioSolicitud, LocalDateTime fechaFinSolicitud, LocalDateTime ingresoEvaluacion, LocalDateTime respuestaEvaluacion, List<Documento> documentos, User estudiante) {
-        this.idProfesional = idProfesional;
+    public Solicitud(String nombrePaciente, String rutPaciente, String carrera,
+                     String nombreMedicoTratante, LocalDate fechaInicioReposo,
+                     LocalDate fechaFinReposo, String motivo, List<Documento> documentos,
+                     User estudiante) {
         this.nombrePaciente = nombrePaciente;
         this.rutPaciente = rutPaciente;
         this.carrera = carrera;
@@ -90,14 +92,6 @@ public class Solicitud {
         this.fechaInicioReposo = fechaInicioReposo;
         this.fechaFinReposo = fechaFinReposo;
         this.motivo = motivo;
-        this.rutaCertificadoMedico = rutaCertificadoMedico;
-        this.estado = estado;
-        this.resolucion = resolucion;
-        this.comentario = comentario;
-        this.fechaInicioSolicitud = fechaInicioSolicitud;
-        this.fechaFinSolicitud = fechaFinSolicitud;
-        IngresoEvaluacion = ingresoEvaluacion;
-        RespuestaEvaluacion = respuestaEvaluacion;
         this.documentos = documentos;
         this.estudiante = estudiante;
     }
@@ -188,14 +182,6 @@ public class Solicitud {
 
     public void setMotivo(String motivo) {
         this.motivo = motivo;
-    }
-
-    public String getRutaCertificadoMedico() {
-        return rutaCertificadoMedico;
-    }
-
-    public void setRutaCertificadoMedico(String rutaCertificadoMedico) {
-        this.rutaCertificadoMedico = rutaCertificadoMedico;
     }
 
     public String getEstado() {
