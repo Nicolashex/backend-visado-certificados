@@ -1,24 +1,21 @@
 package cl.ucn.dge.salud.visadocertificados.controller;
 
 import cl.ucn.dge.salud.visadocertificados.dto.RegistroUserDto;
-import cl.ucn.dge.salud.visadocertificados.model.User;
-import cl.ucn.dge.salud.visadocertificados.service.ServicioUser;
+
+import cl.ucn.dge.salud.visadocertificados.service.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@Controller
+@RestController
 @RequestMapping("/registro")
 public class ControladorUsuario {
 
-    private ServicioUser servicioUser;
+    private ServicioUsuario servicioUser;
 
     @Autowired
-    public ControladorUsuario(ServicioUser servicioUser) {
+    public ControladorUsuario(ServicioUsuario servicioUser) {
         super();
         this.servicioUser = servicioUser;
     }
@@ -34,17 +31,17 @@ public class ControladorUsuario {
     }
 
     @PostMapping
-    public String registroUsuario(@ModelAttribute("usuario") RegistroUserDto registroUserDto, RedirectAttributes redirectAttributes){
+    public void registroUsuario(@RequestBody   RegistroUserDto registroUserDto){
 
         if(servicioUser.rutDisponible(registroUserDto.getRut())){
-            redirectAttributes.addFlashAttribute("error", "Rut de usuario ya está en uso, intenta nuevamente");
-            return "redirect:/registro?error_rut";
+
+            return ;
         }else if(servicioUser.correoDisponible(registroUserDto.getCorreo())){
-            redirectAttributes.addFlashAttribute("error", "Correo de usuario ya está en uso, intenta nuevamente");
-            return "redirect:/registro?error_correo";
+
+            return ;
         }else{
             servicioUser.save(registroUserDto);
-            return "redirect:/registro?success";
+
         }
     }
 

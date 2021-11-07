@@ -42,9 +42,6 @@ public class Solicitud {
     @Column(name="motivo",nullable = false,length = 255)
     private String motivo;
 
-    @Column(name="rutaCertificadoMedico",nullable = false)
-    private String rutaCertificadoMedico;
-
     @Column(name="estado",columnDefinition = "varchar(255) default 'Ingresada'" )
     private String estado;
 

@@ -27,11 +27,10 @@ public class Carrera {
     public Carrera() {
     }
 
-    public Carrera(String nombre, String sede, String departamento, List<User> estudiantes) {
+    public Carrera(String nombre, String sede, String departamento) {
         this.nombre = nombre;
         this.sede = sede;
         this.departamento = departamento;
-        this.estudiantes = estudiantes;
     }
 
     public List<User> getEstudiantes() {

@@ -113,4 +113,20 @@ public class RegistroUserDto {
     public void setProfesion(String profesion) {
         this.profesion = profesion;
     }
+
+    @Override
+    public String toString() {
+        return "RegistroUserDto{" +
+                "correo='" + correo + '\'' +
+                ", rut='" + rut + '\'' +
+                ", contrasena='" + contrasena + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", primerApellido='" + primerApellido + '\'' +
+                ", segundoApellido='" + segundoApellido + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", carrera=" + carrera +
+                ", cargo='" + cargo + '\'' +
+                ", profesion='" + profesion + '\'' +
+                '}';
+    }
 }

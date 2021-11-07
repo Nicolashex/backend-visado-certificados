@@ -94,4 +94,18 @@ public class CuerpoSolicitud {
     public void setIdAlumno(Long idAlumno) {
         this.idAlumno = idAlumno;
     }
+
+    @Override
+    public String toString() {
+        return "CuerpoSolicitud{" +
+                "idAlumno=" + idAlumno +
+                ", nombrePaciente='" + nombrePaciente + '\'' +
+                ", rutPaciente='" + rutPaciente + '\'' +
+                ", carrera='" + carrera + '\'' +
+                ", nombreMedicoTratante='" + nombreMedicoTratante + '\'' +
+                ", fechaInicioReposo=" + fechaInicioReposo +
+                ", fechaFinReposo=" + fechaFinReposo +
+                ", motivo='" + motivo + '\'' +
+                '}';
+    }
 }

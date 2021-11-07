@@ -27,11 +27,11 @@ public class ServicioSolicitud {
     private  final ServicioDocumento servicioDocumento;
 
     @Autowired
-    private  final ServicioUserImpl servicioUsuario;
+    private  final ServicioUsuario servicioUsuario;
 
     public ServicioSolicitud(RepositorioSolicitud repositorioSolicitud,
                              ServicioDocumento servicioDocumento,
-                             ServicioUserImpl servicioUsuario) {
+                             ServicioUsuario servicioUsuario) {
         this.repositorioSolicitud = repositorioSolicitud;
         this.servicioDocumento = servicioDocumento;
         this.servicioUsuario = servicioUsuario;
@@ -53,6 +53,9 @@ public class ServicioSolicitud {
                 solicitud.getCarrera(),solicitud.getNombreMedicoTratante(),solicitud.getFechaInicioReposo(),
                 solicitud.getFechaFinReposo(), solicitud.getMotivo(), documentos, estudiante);
         return repositorioSolicitud.save(solicitudNueva);
+
+
+
 
 
     }

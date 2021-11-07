@@ -44,19 +44,16 @@ public class User {
     @Column(name="profesion")
     private String profesion;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "roles_usuarios",
-            joinColumns = @JoinColumn(
-                    name = "usuario_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "rol_id", referencedColumnName = "id"))
-    private Collection<Rol> roles;
+    @ManyToOne()
+    @JoinTable(name = "usuario_roles", joinColumns = @JoinColumn(name = "id",
+            referencedColumnName = "id"), inverseJoinColumns =
+    @JoinColumn(name = "rol_id", referencedColumnName = "id"))
+    private Rol rol;
 
     public User() {
     }
 
-    public User(String correo, String rut, String contrasena, String nombre, String primerApellido, String segundoApellido, String telefono, Carrera carrera, String cargo, String profesion, Collection<Rol> roles) {
+    public User(String correo, String rut, String contrasena, String nombre, String primerApellido, String segundoApellido, String telefono, Carrera carrera, String cargo, String profesion, Rol rol) {
         this.correo = correo;
         this.rut = rut;
         this.contrasena = contrasena;
@@ -67,7 +64,7 @@ public class User {
         this.carrera = carrera;
         this.cargo = cargo;
         this.profesion = profesion;
-        this.roles = roles;
+        this.rol = rol;
     }
 
     public String getRut() {
@@ -102,12 +99,12 @@ public class User {
         this.profesion = profesion;
     }
 
-    public Collection<Rol> getRoles() {
-        return roles;
+    public Rol getRoles() {
+        return rol;
     }
 
-    public void setRoles(Collection<Rol> roles) {
-        this.roles = roles;
+    public void setRoles(Rol roles) {
+        this.rol = roles;
     }
 
     public Long getId() {

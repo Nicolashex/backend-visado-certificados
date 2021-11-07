@@ -30,7 +30,6 @@ public class ControladorRestSolicitud {
         String mensaje = "";
         try {
             servicioSolicitud.ingresarSolicitud(solicitud, certificado, respaldo);
-            System.out.println("TEST0003");
             mensaje = "Solicitud creada de forma exitosa";
             return ResponseEntity.status(HttpStatus.OK).body(mensaje);
 

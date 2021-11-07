@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.net.http.HttpConnectTimeoutException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServicioCarrera {
@@ -44,5 +45,13 @@ public class ServicioCarrera {
 
         return respuesta;
 
+    }
+
+    public Optional<Carrera> existeCarreraPorNombre(String nombre) {
+        return repositorioCarrera.findByNombre(nombre);
+    }
+
+    public void guardarCarrera(Carrera nuevaCarrera) {
+        repositorioCarrera.save(nuevaCarrera);
     }
 }
