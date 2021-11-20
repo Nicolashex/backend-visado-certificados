@@ -118,7 +118,9 @@ public class JwtUsernameAndPasswordAuthenticationFilter
             throws IOException, ServletException {
 
         User user = this.servicioUsuario.getUserByCorro(authResult.getName());
-        String name = user.getNombre();
+        String nombre = user.getNombre();
+        String primerApellido = user.getPrimerApellido();
+        String segundoApellido  = user.getSegundoApellido();
         Long id = user.getId();
         Calendar expirationDate = Calendar.getInstance();
         expirationDate.setTime(new Date());
@@ -126,9 +128,11 @@ public class JwtUsernameAndPasswordAuthenticationFilter
                 jwtConfig.getTokenExpirationAfterHours());
         String token = Jwts.builder()
                 .setSubject(authResult.getName())
-                .claim("name", name)
                 .claim("id", id)
-                .claim("authorities", authResult.getAuthorities())
+                .claim("nombre", nombre)
+                .claim("primer_apellido", primerApellido)
+                .claim("segundo_apellido", segundoApellido)
+                .claim("rol", authResult.getAuthorities())
                 .setIssuedAt(new Date())
                 .setExpiration(expirationDate.getTime())
                 .signWith(secretKey)
