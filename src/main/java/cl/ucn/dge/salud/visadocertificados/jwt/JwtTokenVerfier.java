@@ -88,7 +88,7 @@ public class JwtTokenVerfier extends OncePerRequestFilter {
             Claims body = claimsJws.getBody();
             String username = body.getSubject();
             List<Map<String, String>> authorities =
-                    (List<Map<String, String>>) body.get("authorities");
+                    (List<Map<String, String>>) body.get("rol");
             Set<SimpleGrantedAuthority> authority = authorities.stream()
                     .map(m -> new SimpleGrantedAuthority(m.get("authority")))
                     .collect(Collectors.toSet());

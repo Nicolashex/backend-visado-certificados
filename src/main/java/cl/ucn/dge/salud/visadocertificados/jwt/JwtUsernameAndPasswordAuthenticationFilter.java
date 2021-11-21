@@ -117,7 +117,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter
                                             final Authentication authResult)
             throws IOException, ServletException {
 
-        User user = this.servicioUsuario.getUserByCorro(authResult.getName());
+        User user = this.servicioUsuario.getUsuarioPorCorreo(authResult.getName());
         String nombre = user.getNombre();
         String primerApellido = user.getPrimerApellido();
         String segundoApellido  = user.getSegundoApellido();

@@ -31,7 +31,7 @@ public class ServicioUsuario {
         this.repositoriRol = repositoriRol;
     }
 
-    public User getUserByCorro(String correo){
+    public User getUsuarioPorCorreo(String correo){
         return repositorioUser.buscarPorCorreo(correo);
     }
 
@@ -67,7 +67,6 @@ public class ServicioUsuario {
                 registroUserDto.getCargo(),
                 registroUserDto.getProfesion(),
                 rol);
-
         return repositorioUser.save(user);
     }
 }

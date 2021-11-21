@@ -1,5 +1,6 @@
 package cl.ucn.dge.salud.visadocertificados.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
@@ -42,8 +43,21 @@ public class Solicitud {
     @Column(name="motivo",nullable = false,length = 255)
     private String motivo;
 
+    @Column(name="es_carga",nullable = false)
+    @JsonProperty("es_carga")
+    private boolean esCarga;
+
+    @Column(name="rut_carga", nullable = true, length = 15)
+    @JsonProperty("rut_carga")
+    private String rutCarga;
+
+    @Column(name="nombre_carga", nullable = true)
+    @JsonProperty("nombre_carga")
+    private String nombreCarga;
+
+    @Enumerated(EnumType.STRING)
     @Column(name="estado",columnDefinition = "varchar(255) default 'Ingresada'" )
-    private String estado;
+    private estadosPosibles estado;
 
     @Column(name="resolucion",columnDefinition = "varchar(255) default 'Por evaluar'" )
     private String resolucion;
@@ -80,8 +94,8 @@ public class Solicitud {
 
     public Solicitud(String nombrePaciente, String rutPaciente, String carrera,
                      String nombreMedicoTratante, LocalDate fechaInicioReposo,
-                     LocalDate fechaFinReposo, String motivo, List<Documento> documentos,
-                     User estudiante) {
+                     LocalDate fechaFinReposo, String motivo, String rutCarga, List<Documento> documentos,
+                     User estudiante, boolean esCarga, String nombreCarga) {
         this.nombrePaciente = nombrePaciente;
         this.rutPaciente = rutPaciente;
         this.carrera = carrera;
@@ -89,24 +103,12 @@ public class Solicitud {
         this.fechaInicioReposo = fechaInicioReposo;
         this.fechaFinReposo = fechaFinReposo;
         this.motivo = motivo;
+        this.rutCarga = rutCarga;
         this.documentos = documentos;
         this.estudiante = estudiante;
-    }
-
-    public List<Documento> getDocumentos() {
-        return documentos;
-    }
-
-    public void setDocumentos(List<Documento> documentos) {
-        this.documentos = documentos;
-    }
-
-    public User getEstudiante() {
-        return estudiante;
-    }
-
-    public void setEstudiante(User estudiante) {
-        this.estudiante = estudiante;
+        this.esCarga = esCarga;
+        this.nombreCarga = nombreCarga;
+        this.estado = estadosPosibles.REVISION_PRERREQUISITOS;
     }
 
     public Long getId() {
@@ -181,11 +183,35 @@ public class Solicitud {
         this.motivo = motivo;
     }
 
-    public String getEstado() {
+    public boolean isEsCarga() {
+        return esCarga;
+    }
+
+    public void setEsCarga(boolean esCarga) {
+        this.esCarga = esCarga;
+    }
+
+    public String getRutCarga() {
+        return rutCarga;
+    }
+
+    public void setRutCarga(String rutCarga) {
+        this.rutCarga = rutCarga;
+    }
+
+    public String getNombreCarga() {
+        return nombreCarga;
+    }
+
+    public void setNombreCarga(String nombreCarga) {
+        this.nombreCarga = nombreCarga;
+    }
+
+    public estadosPosibles getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(estadosPosibles estado) {
         this.estado = estado;
     }
 
@@ -236,4 +262,26 @@ public class Solicitud {
     public void setRespuestaEvaluacion(LocalDateTime respuestaEvaluacion) {
         RespuestaEvaluacion = respuestaEvaluacion;
     }
+
+    public List<Documento> getDocumentos() {
+        return documentos;
+    }
+
+    public void setDocumentos(List<Documento> documentos) {
+        this.documentos = documentos;
+    }
+
+    public User getEstudiante() {
+        return estudiante;
+    }
+
+    public void setEstudiante(User estudiante) {
+        this.estudiante = estudiante;
+    }
+
+    public enum estadosPosibles {
+        REVISION_PRERREQUISITOS,
+        REVISION_DATOS
+    }
+
 }

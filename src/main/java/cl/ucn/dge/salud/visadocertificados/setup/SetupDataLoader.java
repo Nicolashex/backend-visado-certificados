@@ -38,13 +38,39 @@ public class SetupDataLoader implements
             return;
         }
         crearRol(Rol.enumRole.ROL_ESTUDIANTE);
-        crearRol(Rol.enumRole.ROLE_ADMINISTRADOR);
+        crearRol(Rol.enumRole.ROL_ADMINISTRADOR);
 
-        crearCarrera("ICCI", "Antofagasta", "DISC");
-        crearCarrera("ICI", "Antofagasta", "DISC");
-        crearCarrera("ASDA", "Antofagasta", "DISC");
-        crearCarrera("FAC", "Antofagasta", "DISC");
-        crearCarrera("IMA", "Antofagasta", "DISC");
+        crearCarrera("Analista Químico", "Antofagasta", "DISC");
+        crearCarrera("Arquitectura", "Antofagasta", "DISC");
+        crearCarrera("Contador Auditor - Contador Público Diurno", "Antofagasta", "DISC");
+        crearCarrera("Contador Auditor - Contador Público Vespertino", "Antofagasta", "DISC");
+        crearCarrera("Derecho", "Antofagasta", "DISC");
+        crearCarrera("Geología", "Antofagasta", "DISC");
+        crearCarrera("Ingeniería Civil Ambiental", "Antofagasta", "DISC");
+        crearCarrera("Ingeniería Civil de Minas", "Antofagasta", "DISC");
+        crearCarrera("Ingeniería Civil en Computación e Informática", "Antofagasta", "DISC");
+        crearCarrera("Ingeniería civil en gestión de la construcción", "Antofagasta", "DISC");
+        crearCarrera("Ingeniería Civil Industrial", "Antofagasta", "DISC");
+        crearCarrera("Ingeniería Civil Metalúrgica", "Antofagasta", "DISC");
+        crearCarrera("Ingeniería Civil Plan Común", "Antofagasta", "DISC");
+        crearCarrera("Ingeniería Civil Química", "Antofagasta", "DISC");
+        crearCarrera("Ingeniería civil", "Antofagasta", "DISC");
+        crearCarrera("Ingeniería Comercial", "Antofagasta", "DISC");
+        crearCarrera("Ingeniería en Computación e Informática", "Antofagasta", "DISC");
+        crearCarrera("Ingeniería en Construcción", "Antofagasta", "DISC");
+        crearCarrera("Ingeniería en Información y Control de Gestión", "Antofagasta", "DISC");
+        crearCarrera("Ingeniería en Metalurgia", "Antofagasta", "DISC");
+        crearCarrera("Licenciatura en Física con mención en Astronomía", "Antofagasta", "DISC");
+        crearCarrera("Licenciatura en Matemática", "Antofagasta", "DISC");
+        crearCarrera("Pedagogía en Educación Básica con Especialización", "Antofagasta", "DISC");
+        crearCarrera("Pedagogía en Educación Parvularia con Mención en Desarrollo Emocional y Cognitivo", "Antofagasta", "DISC");
+        crearCarrera("Pedagogía en Inglés", "Antofagasta", "DISC");
+        crearCarrera("Pedagogía en Matemática en Educación Media", "Antofagasta", "DISC");
+        crearCarrera("Periodismo", "Antofagasta", "DISC");
+        crearCarrera("Programa de Prosecución de Estudios de Formación Pedagógica", "Antofagasta", "DISC");
+        crearCarrera("Psicología", "Antofagasta", "DISC");
+        crearCarrera("Química Industrial", "Antofagasta", "DISC");
+        crearCarrera("Química y Farmacia", "Antofagasta", "DISC");
         alreadySetup = true;
 
     }

@@ -2,16 +2,34 @@ package cl.ucn.dge.salud.visadocertificados.dto;
 
 import cl.ucn.dge.salud.visadocertificados.model.Carrera;
 import cl.ucn.dge.salud.visadocertificados.model.Rol;
+import cl.ucn.dge.salud.visadocertificados.validacion.ValidacionRut;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.Collection;
 
 public class RegistroUserDto {
 
+    @NotBlank(message = "Correo no puede estar en blanco")
+    @Email(message = "El correo debe ser valido")
     private String correo;
+    @NotBlank(message = "Rut no puede estar en blanco")
+    @ValidacionRut(message = "Se requiere un rut valido")
     private String rut;
+    @NotBlank(message = "Correo no puede estar en blanco")
     private String contrasena;
+    @NotBlank(message = "Se requiere un nombre")
+    @Pattern(message = "Nombre no valido",
+            regexp = "^(?=.{1,40}$)[a-zA-Z]+(?:[-'\\s][a-zA-Z]+)*$")
     private String nombre;
+    @NotBlank(message = "Se requiere un apellido")
+    @Pattern(message = "Apellido no valido",
+            regexp = "^(?=.{1,40}$)[a-zA-Z]+(?:[-'\\s][a-zA-Z]+)*$")
     private String primerApellido;
+    @NotBlank(message = "Se requiere un segundo apellido")
+    @Pattern(message = "Apellido no valido",
+            regexp = "^(?=.{1,40}$)[a-zA-Z]+(?:[-'\\s][a-zA-Z]+)*$")
     private String segundoApellido;
     private String telefono;
     private int carrera;

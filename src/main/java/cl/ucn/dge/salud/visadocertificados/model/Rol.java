@@ -72,6 +72,8 @@ public class Rol {
      */
     public enum enumRole {
         ROL_ESTUDIANTE,
-        ROLE_ADMINISTRADOR
+        ROL_ADMINISTRADOR,
+        ROL_MEDICO
     }
+
 }
