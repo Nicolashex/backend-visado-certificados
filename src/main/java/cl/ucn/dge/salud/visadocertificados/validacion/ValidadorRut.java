@@ -26,6 +26,11 @@ public class ValidadorRut implements
     public boolean isValid(String rut,
                            final ConstraintValidatorContext context) {
         boolean validation = false;
+        if( rut==null ){
+            return true;
+        }else if(rut.isBlank()) {
+            return true;
+        }
         try {
             rut = rut.toUpperCase();
             rut = rut.replace("-", "");
