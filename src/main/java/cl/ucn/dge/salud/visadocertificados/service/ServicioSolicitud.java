@@ -49,9 +49,6 @@ public class ServicioSolicitud {
 
 
         User estudiante = servicioUsuario.getUsuarioPorCorreo(correoUsuario);
-        if(!this.servicioCarrera.existeCarreraPorNombre(solicitud.getCarrera()).isPresent()){
-            throw new IOException("No existe carrera");
-        }
         if(solicitud.esCarga()) {
             if(solicitud.getNombreCarga()==null || solicitud.getRutCarga()==null){
                 throw new IOException("Se requiere un nombre y rut para la carga asociada");
@@ -75,7 +72,7 @@ public class ServicioSolicitud {
             nombreCarga = solicitud.getNombreCarga();
         }
 
-        Solicitud solicitudNueva = new Solicitud(solicitud.getCarrera(),solicitud.getNombreMedicoTratante(),solicitud.getFechaInicioReposo(),
+        Solicitud solicitudNueva = new Solicitud(solicitud.getNombreMedicoTratante(),solicitud.getFechaInicioReposo(),
                 solicitud.getFechaFinReposo(), solicitud.getMotivo(), rutCarga, documentos, estudiante,
                 solicitud.esCarga(), nombreCarga);
         return repositorioSolicitud.save(solicitudNueva);
