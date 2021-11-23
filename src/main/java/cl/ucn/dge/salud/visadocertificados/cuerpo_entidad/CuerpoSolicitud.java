@@ -11,8 +11,6 @@ import java.time.LocalDate;
 
 public class CuerpoSolicitud {
 
-    @NotBlank(message = "Se requiere una carrera")
-    private String carrera;
     @NotBlank(message = "Se requiere el nombre del medico")
     @JsonProperty("nombre_medico_tratante")
     private String nombreMedicoTratante;
@@ -38,10 +36,9 @@ public class CuerpoSolicitud {
     private String nombreCarga;
 
 
-    public CuerpoSolicitud(String carrera, String nombreMedicoTratante,
-                           LocalDate fechaInicioReposo, LocalDate fechaFinReposo,
-                           String motivo, boolean esCarga, String rutCarga, String nombreCarga) {
-        this.carrera = carrera;
+    public CuerpoSolicitud(String nombreMedicoTratante, LocalDate fechaInicioReposo,
+                           LocalDate fechaFinReposo, String motivo, boolean esCarga,
+                           String rutCarga, String nombreCarga) {
         this.nombreMedicoTratante = nombreMedicoTratante;
         this.fechaInicioReposo = fechaInicioReposo;
         this.fechaFinReposo = fechaFinReposo;
@@ -49,14 +46,6 @@ public class CuerpoSolicitud {
         this.esCarga = esCarga;
         this.rutCarga = rutCarga;
         this.nombreCarga = nombreCarga;
-    }
-
-    public String getCarrera() {
-        return carrera;
-    }
-
-    public void setCarrera(String carrera) {
-        this.carrera = carrera;
     }
 
     public String getNombreMedicoTratante() {
@@ -118,7 +107,6 @@ public class CuerpoSolicitud {
     @Override
     public String toString() {
         return "CuerpoSolicitud{" +
-                "carrera='" + carrera + '\'' +
                 ", nombreMedicoTratante='" + nombreMedicoTratante + '\'' +
                 ", fechaInicioReposo=" + fechaInicioReposo +
                 ", fechaFinReposo=" + fechaFinReposo +
