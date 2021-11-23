@@ -20,12 +20,6 @@ public class Solicitud {
     @Column(name="idProfesional",nullable = true)
     private Long idProfesional;
 
-    @Column(name="nombrePaciente",nullable = false)
-    private String nombrePaciente;
-
-    @Column(name = "rutPaciente",nullable = false,length = 15)
-    private String rutPaciente;
-
     @Column(name="carrera",nullable = false)
     private String carrera;
 
@@ -92,12 +86,9 @@ public class Solicitud {
     public Solicitud() {
     }
 
-    public Solicitud(String nombrePaciente, String rutPaciente, String carrera,
-                     String nombreMedicoTratante, LocalDate fechaInicioReposo,
+    public Solicitud(String carrera, String nombreMedicoTratante, LocalDate fechaInicioReposo,
                      LocalDate fechaFinReposo, String motivo, String rutCarga, List<Documento> documentos,
                      User estudiante, boolean esCarga, String nombreCarga) {
-        this.nombrePaciente = nombrePaciente;
-        this.rutPaciente = rutPaciente;
         this.carrera = carrera;
         this.nombreMedicoTratante = nombreMedicoTratante;
         this.fechaInicioReposo = fechaInicioReposo;
@@ -125,22 +116,6 @@ public class Solicitud {
 
     public void setIdProfesional(Long idProfesional) {
         this.idProfesional = idProfesional;
-    }
-
-    public String getNombrePaciente() {
-        return nombrePaciente;
-    }
-
-    public void setNombrePaciente(String nombrePaciente) {
-        this.nombrePaciente = nombrePaciente;
-    }
-
-    public String getRutPaciente() {
-        return rutPaciente;
-    }
-
-    public void setRutPaciente(String rutPaciente) {
-        this.rutPaciente = rutPaciente;
     }
 
     public String getCarrera() {

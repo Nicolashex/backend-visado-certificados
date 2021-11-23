@@ -49,19 +49,16 @@ public class ServicioSolicitud {
 
 
         User estudiante = servicioUsuario.getUsuarioPorCorreo(correoUsuario);
-        if (!estudiante.getRut().equalsIgnoreCase(solicitud.getRutPaciente())){
-            throw new IOException("Rut no coinciden");
-        }
         if(!this.servicioCarrera.existeCarreraPorNombre(solicitud.getCarrera()).isPresent()){
             throw new IOException("No existe carrera");
         }
-        if(solicitud.esCarga() && (solicitud.getNombreCarga()==null ||
-                solicitud.getRutCarga()==null)) {
-            throw new IOException("Se requiere un nombre y rut para la carga asociada");
-        }
-        if(solicitud.getNombreCarga().isBlank() ||
-                solicitud.getRutCarga().isBlank()) {
-            throw new IOException("nombre y rut para la carga asociada no pueden estar en blanco");
+        if(solicitud.esCarga()) {
+            if(solicitud.getNombreCarga()==null || solicitud.getRutCarga()==null){
+                throw new IOException("Se requiere un nombre y rut para la carga asociada");
+            }else if (solicitud.getNombreCarga().isBlank() || solicitud.getRutCarga().isBlank()) {
+                throw new IOException("Se requiere un nombre y rut para la carga asociada");
+            }
+
         }
         List<Documento> documentos ;
         try{
@@ -71,10 +68,16 @@ public class ServicioSolicitud {
             e.printStackTrace();
             throw new InternalError("No se pudieron guardar los archivos");
         }
-        Solicitud solicitudNueva = new Solicitud(solicitud.getNombrePaciente(),solicitud.getRutPaciente(),
-                solicitud.getCarrera(),solicitud.getNombreMedicoTratante(),solicitud.getFechaInicioReposo(),
-                solicitud.getFechaFinReposo(), solicitud.getMotivo(), solicitud.getRutCarga(), documentos, estudiante,
-                solicitud.esCarga(), solicitud.getNombreCarga());
+        String rutCarga =null;
+        String nombreCarga =null;
+        if(solicitud.esCarga()){
+            rutCarga = solicitud.getRutCarga();
+            nombreCarga = solicitud.getNombreCarga();
+        }
+
+        Solicitud solicitudNueva = new Solicitud(solicitud.getCarrera(),solicitud.getNombreMedicoTratante(),solicitud.getFechaInicioReposo(),
+                solicitud.getFechaFinReposo(), solicitud.getMotivo(), rutCarga, documentos, estudiante,
+                solicitud.esCarga(), nombreCarga);
         return repositorioSolicitud.save(solicitudNueva);
 
     }

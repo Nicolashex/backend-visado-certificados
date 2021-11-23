@@ -1,5 +1,6 @@
 package cl.ucn.dge.salud.visadocertificados.cuerpo_entidad;
 
+import cl.ucn.dge.salud.visadocertificados.validacion.ValidacionRut;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,14 +11,6 @@ import java.time.LocalDate;
 
 public class CuerpoSolicitud {
 
-    @NotBlank(message = "Se requiere un nombre")
-    @Pattern(message = "Nombre no valido",
-            regexp = "^(?=.{1,40}$)[a-zA-Z]+(?:[-'\\s][a-zA-Z]+)*$")
-    @JsonProperty("nombre_paciente")
-    private String nombrePaciente;
-    @NotBlank(message = "Se requiere un rut del paciente")
-    @JsonProperty("rut_paciente")
-    private String rutPaciente;
     @NotBlank(message = "Se requiere una carrera")
     private String carrera;
     @NotBlank(message = "Se requiere el nombre del medico")
@@ -36,18 +29,18 @@ public class CuerpoSolicitud {
     @NotNull(message = "se requiere ingresar si esta asociado a una carga o no")
     @JsonProperty("es_carga")
     private boolean esCarga;
+    @ValidacionRut(message = "Se requiere un rut valido para la carga")
     @JsonProperty("rut_carga")
     private String rutCarga;
+    @Pattern(message = "Nombre de carga no valido",
+            regexp = "^[a-zA-Z]{4,}(?: [a-zA-Z]+)?(?: [a-zA-Z]+)?(?: [a-zA-Z]+)?$")
     @JsonProperty("nombre_carga")
     private String nombreCarga;
 
 
-    public CuerpoSolicitud(String nombrePaciente, String rutPaciente,
-                           String carrera, String nombreMedicoTratante,
+    public CuerpoSolicitud(String carrera, String nombreMedicoTratante,
                            LocalDate fechaInicioReposo, LocalDate fechaFinReposo,
                            String motivo, boolean esCarga, String rutCarga, String nombreCarga) {
-        this.nombrePaciente = nombrePaciente;
-        this.rutPaciente = rutPaciente;
         this.carrera = carrera;
         this.nombreMedicoTratante = nombreMedicoTratante;
         this.fechaInicioReposo = fechaInicioReposo;
@@ -56,22 +49,6 @@ public class CuerpoSolicitud {
         this.esCarga = esCarga;
         this.rutCarga = rutCarga;
         this.nombreCarga = nombreCarga;
-    }
-
-    public String getNombrePaciente() {
-        return nombrePaciente;
-    }
-
-    public void setNombrePaciente(String nombrePaciente) {
-        this.nombrePaciente = nombrePaciente;
-    }
-
-    public String getRutPaciente() {
-        return rutPaciente;
-    }
-
-    public void setRutPaciente(String rutPaciente) {
-        this.rutPaciente = rutPaciente;
     }
 
     public String getCarrera() {
@@ -141,9 +118,7 @@ public class CuerpoSolicitud {
     @Override
     public String toString() {
         return "CuerpoSolicitud{" +
-                "nombrePaciente='" + nombrePaciente + '\'' +
-                ", rutPaciente='" + rutPaciente + '\'' +
-                ", carrera='" + carrera + '\'' +
+                "carrera='" + carrera + '\'' +
                 ", nombreMedicoTratante='" + nombreMedicoTratante + '\'' +
                 ", fechaInicioReposo=" + fechaInicioReposo +
                 ", fechaFinReposo=" + fechaFinReposo +
