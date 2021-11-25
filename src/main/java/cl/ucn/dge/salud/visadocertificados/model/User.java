@@ -53,7 +53,8 @@ public class User {
     public User() {
     }
 
-    public User(String correo, String rut, String contrasena, String nombre, String primerApellido, String segundoApellido, String telefono, Carrera carrera, String cargo, String profesion, Rol rol) {
+    public User(String correo, String rut, String contrasena, String nombre, String primerApellido, String segundoApellido, String telefono, Carrera carrera, Rol rol) {
+
         this.correo = correo;
         this.rut = rut;
         this.contrasena = contrasena;
@@ -62,8 +63,6 @@ public class User {
         this.segundoApellido = segundoApellido;
         this.telefono = telefono;
         this.carrera = carrera;
-        this.cargo = cargo;
-        this.profesion = profesion;
         this.rol = rol;
     }
 
