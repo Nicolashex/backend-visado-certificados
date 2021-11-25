@@ -55,4 +55,8 @@ public class ServicioCarrera {
         repositorioCarrera.save(nuevaCarrera);
     }
 
+    public Carrera carreraByNombre(String nombre){
+        return repositorioCarrera.carreraByNombre(nombre);
+    }
+
 }
