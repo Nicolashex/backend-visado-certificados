@@ -14,4 +14,7 @@ public interface RepositorioCarrera  extends JpaRepository<Carrera, Long> {
 
     @Query("SELECT c FROM Carrera c WHERE c.nombre = ?1")
     Optional<Carrera> findByNombre(String nombre);
+
+    @Query("SELECT c FROM Carrera c WHERE c.nombre = ?1")
+    Carrera carreraByNombre(String nombre);
 }
