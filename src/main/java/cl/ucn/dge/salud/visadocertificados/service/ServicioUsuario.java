@@ -52,9 +52,9 @@ public class ServicioUsuario {
 
     public User save(RegistroUserDto registroUserDto) {
 
-        Carrera c = repositorioCarrera.getCarreraById((long) registroUserDto.getCarrera());
+        Carrera carrera = repositorioCarrera.carreraByNombre(registroUserDto.getCarrera());
         Rol rol = repositoriRol.findByName(Rol.enumRole.ROL_ESTUDIANTE);
-        System.out.println(registroUserDto);
+
         User user = new User(
                 registroUserDto.getCorreo(),
                 registroUserDto.getRut(),
@@ -63,9 +63,9 @@ public class ServicioUsuario {
                 registroUserDto.getPrimerApellido(),
                 registroUserDto.getSegundoApellido(),
                 registroUserDto.getTelefono(),
-                c,
-                registroUserDto.getCargo(),
-                registroUserDto.getProfesion(),
+                carrera,
+                //registroUserDto.getCargo(),
+                //registroUserDto.getProfesion(),
                 rol);
         return repositorioUser.save(user);
     }
