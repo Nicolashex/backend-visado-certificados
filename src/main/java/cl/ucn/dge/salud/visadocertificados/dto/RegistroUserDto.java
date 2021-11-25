@@ -32,11 +32,12 @@ public class RegistroUserDto {
             regexp = "^(?=.{1,40}$)[a-zA-Z]+(?:[-'\\s][a-zA-Z]+)*$")
     private String segundoApellido;
     private String telefono;
-    private int carrera;
+    @NotBlank
+    private String carrera;
     private String cargo;
     private String profesion;
 
-    public RegistroUserDto(String correo, String rut, String contrasena, String nombre, String primerApellido, String segundoApellido, String telefono, int carrera, String cargo, String profesion) {
+    public RegistroUserDto(String correo, String rut, String contrasena, String nombre, String primerApellido, String segundoApellido, String telefono, String carrera, String cargo, String profesion) {
         this.correo = correo;
         this.rut = rut;
         this.contrasena = contrasena;
@@ -108,11 +109,11 @@ public class RegistroUserDto {
         this.telefono = telefono;
     }
 
-    public int getCarrera() {
-        return carrera;
+    public String getCarrera() {
+        return this.carrera;
     }
 
-    public void setCarrera(int carrera) {
+    public void setCarrera(String carrera) {
         this.carrera = carrera;
     }
 
