@@ -1,5 +1,6 @@
 package cl.ucn.dge.salud.visadocertificados.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ public class Documento {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
+    @JsonIgnore
     @Lob
     private byte[] data;
 
