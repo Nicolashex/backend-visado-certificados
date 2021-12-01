@@ -1,7 +1,12 @@
 package cl.ucn.dge.salud.visadocertificados.controller;
 
+import cl.ucn.dge.salud.visadocertificados.model.Documento;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioDocumento;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,5 +20,13 @@ public class ControladorRestDocumento {
 
     public ControladorRestDocumento(ServicioDocumento servicioDocumento) {
         this.servicioDocumento = servicioDocumento;
+    }
+
+    @GetMapping("/documentos/{id}")
+    public ResponseEntity<byte[]> getFile(@PathVariable String id) {
+        Documento documento = servicioDocumento.getDocumentoPorId(id);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + documento.getId() + "\"")
+                .body(documento.getData());
     }
 }
