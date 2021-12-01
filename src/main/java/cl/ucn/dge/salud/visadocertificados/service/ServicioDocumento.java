@@ -45,4 +45,8 @@ public class ServicioDocumento {
 
         return documentos;
     }
+    public Documento getDocumentoPorId(String id){
+        return this.repositorioDocumento.getDocumentoById(id);
+
+    }
 }
