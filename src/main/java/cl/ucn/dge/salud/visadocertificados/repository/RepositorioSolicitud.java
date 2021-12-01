@@ -19,7 +19,7 @@ public interface RepositorioSolicitud extends JpaRepository<Solicitud, Long> {
 
     List<SolicitudResumenAdministrador> getSolicitudByEstado(Solicitud.estadosPosibles estado);
     @Query("SELECT s FROM Solicitud s WHERE s.id=?1")
-    SolicitudDetalladaAdministrador getSolicitudDetalladaAdministrador(String id);
+    SolicitudDetalladaAdministrador getSolicitudDetalladaAdministrador(Long id);
 
 
 }

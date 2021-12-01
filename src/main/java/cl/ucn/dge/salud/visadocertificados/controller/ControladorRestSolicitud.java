@@ -81,7 +81,7 @@ public class ControladorRestSolicitud {
         return errors;
     }
     @GetMapping("/admin/solicitudes/{id}")
-    public SolicitudDetalladaAdministrador getFile(@PathVariable String id) {
+    public SolicitudDetalladaAdministrador getFile(@PathVariable Long id) {
         return this.servicioSolicitud.getSolicitudDetalladaAdministrador(id);
     }
 }

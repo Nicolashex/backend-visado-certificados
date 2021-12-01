@@ -86,7 +86,7 @@ public class ServicioSolicitud {
         return this.repositorioSolicitud.findAll();
     }
 
-    public SolicitudDetalladaAdministrador getSolicitudDetalladaAdministrador(String id) {
-        return this.getSolicitudDetalladaAdministrador(id);
+    public SolicitudDetalladaAdministrador getSolicitudDetalladaAdministrador(Long id) {
+        return this.repositorioSolicitud.getSolicitudDetalladaAdministrador(id);
     }
 }
