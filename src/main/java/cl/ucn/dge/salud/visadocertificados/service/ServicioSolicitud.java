@@ -4,6 +4,8 @@ import cl.ucn.dge.salud.visadocertificados.cuerpo_entidad.CuerpoSolicitud;
 import cl.ucn.dge.salud.visadocertificados.model.Documento;
 import cl.ucn.dge.salud.visadocertificados.model.Solicitud;
 import cl.ucn.dge.salud.visadocertificados.model.User;
+import cl.ucn.dge.salud.visadocertificados.projection.SolicitudDetalladaAdministrador;
+import cl.ucn.dge.salud.visadocertificados.projection.SolicitudResumenAdministrador;
 import cl.ucn.dge.salud.visadocertificados.repository.RepositorioSolicitud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 public class ServicioSolicitud {
@@ -77,5 +78,15 @@ public class ServicioSolicitud {
                 solicitud.esCarga(), nombreCarga);
         return repositorioSolicitud.save(solicitudNueva);
 
+    }
+    public List<SolicitudResumenAdministrador> getSolicitudes(){
+        return this.repositorioSolicitud.getSolicitudByEstado(Solicitud.estadosPosibles.REVISION_PRERREQUISITOS);
+    }
+    public List<Solicitud> getAllSolicitudes(){
+        return this.repositorioSolicitud.findAll();
+    }
+
+    public SolicitudDetalladaAdministrador getSolicitudDetalladaAdministrador(String id) {
+        return this.getSolicitudDetalladaAdministrador(id);
     }
 }
