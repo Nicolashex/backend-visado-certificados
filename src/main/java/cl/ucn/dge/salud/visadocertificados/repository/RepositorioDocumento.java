@@ -6,8 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface RepositorioDocumento extends JpaRepository<Documento, Long> {
 
-    @Query("SELECT d FROM Documento d WHERE d.id=?1")
-    Documento getDocumentoById(Long id);
+    Documento getDocumentoById(String Id);
 
 
 }
