@@ -56,6 +56,11 @@ public class Solicitud {
     @Column(name="comentario")
     private String comentario;
 
+    @JsonProperty("comentario_medico")
+    @Column(name="comentario_medico")
+    private String comentarioMedico;
+
+    @JsonProperty("fecha_inicio_solicitud")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @CreationTimestamp
     @Column(name="fechaInicioSolicitud",nullable = false)
@@ -77,7 +82,7 @@ public class Solicitud {
     @JoinColumn(name = "solicitud",referencedColumnName = "id")
     private List<Documento> documentos;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User estudiante;
 
     public Solicitud() {
@@ -188,6 +193,14 @@ public class Solicitud {
 
     public String getComentario() {
         return comentario;
+    }
+
+    public String getComentarioMedico() {
+        return comentarioMedico;
+    }
+
+    public void setComentarioMedico(String comentarioMedico) {
+        this.comentarioMedico = comentarioMedico;
     }
 
     public void setComentario(String comentario) {
