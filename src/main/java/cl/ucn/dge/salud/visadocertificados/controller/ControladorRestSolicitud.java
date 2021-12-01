@@ -1,9 +1,14 @@
 package cl.ucn.dge.salud.visadocertificados.controller;
 
 import cl.ucn.dge.salud.visadocertificados.cuerpo_entidad.CuerpoSolicitud;
+import cl.ucn.dge.salud.visadocertificados.model.Documento;
+import cl.ucn.dge.salud.visadocertificados.model.Solicitud;
+import cl.ucn.dge.salud.visadocertificados.projection.SolicitudDetalladaAdministrador;
+import cl.ucn.dge.salud.visadocertificados.projection.SolicitudResumenAdministrador;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioSolicitud;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -53,6 +59,16 @@ public class ControladorRestSolicitud {
         }
 
     }
+    @GetMapping(value = "/admin/solicitudes")
+    public List<SolicitudResumenAdministrador> getSolicitudes(){
+        return this.servicioSolicitud.getSolicitudes();
+    }
+
+    @GetMapping(value = "/solicitudes")
+    public List<Solicitud> getAllSolicitudes(){
+        return this.servicioSolicitud.getAllSolicitudes();
+    }
+
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -63,5 +79,9 @@ public class ControladorRestSolicitud {
                 errors.put(error.getField(), error.getDefaultMessage()));
 
         return errors;
+    }
+    @GetMapping("/admin/solicitudes/{id}")
+    public SolicitudDetalladaAdministrador getFile(@PathVariable String id) {
+        return this.servicioSolicitud.getSolicitudDetalladaAdministrador(id);
     }
 }
