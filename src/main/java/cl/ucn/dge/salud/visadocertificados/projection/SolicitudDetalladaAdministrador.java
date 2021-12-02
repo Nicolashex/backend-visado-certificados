@@ -24,12 +24,16 @@ public interface SolicitudDetalladaAdministrador {
 
     String getMotivo();
 
+    @JsonProperty("nombre_medico_tratante")
     String getNombreMedicoTratante();
 
-    String getIdProfesional(); //rut medico
+    @JsonProperty("rut_medico_tratante")
+    String getRutMedicoTratante(); //rut medico
 
+    @JsonProperty("fecha_inicio_reposo")
     LocalDate getFechaInicioReposo();
 
+    @JsonProperty("fecha_fin_reposo")
     LocalDate getFechaFinReposo();
 
     List<Documento> getDocumentos();
@@ -38,7 +42,7 @@ public interface SolicitudDetalladaAdministrador {
 
     Solicitud.estadosPosibles getEstado();
 
-    @Value("#{target.IdProfesional.nombre + ' ' + target.IdProfesional.apellido}")
+    @Value("#{(target.idProfesional != null ? (target.idProfesional.nombre + ' ' + target.idProfesional.apellido):null)}")
     String getProfesional();
 
     @Value("#{target.estudiante.correo}")

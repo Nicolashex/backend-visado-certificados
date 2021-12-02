@@ -1,6 +1,7 @@
 package cl.ucn.dge.salud.visadocertificados.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class Documento {
     @Column(name="tipo", nullable = true)
     private posiblesTiposDocumentos tipo;
 
+    @JsonProperty("tipo_archivo")
     @Column(name="tipo_archivo", nullable = true)
     private String tipoArchivo;
 

@@ -35,7 +35,7 @@ public class CuerpoSolicitud {
     @JsonProperty("nombre_carga")
     private String nombreCarga;
 
-    @JsonProperty("rutMedicoTratante")
+    @JsonProperty("rut_medico_tratante")
     private String rutMedicoTratante;
 
 

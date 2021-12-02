@@ -87,7 +87,7 @@ public class Solicitud {
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User estudiante;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User idProfesional;
 
     public Solicitud() {
