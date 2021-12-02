@@ -5,6 +5,7 @@ import cl.ucn.dge.salud.visadocertificados.model.Documento;
 import cl.ucn.dge.salud.visadocertificados.model.Solicitud;
 import cl.ucn.dge.salud.visadocertificados.model.User;
 import cl.ucn.dge.salud.visadocertificados.projection.SolicitudDetalladaAdministrador;
+import cl.ucn.dge.salud.visadocertificados.projection.SolicitudDetalladaEstudiante;
 import cl.ucn.dge.salud.visadocertificados.projection.SolicitudDetalladaMedico;
 import cl.ucn.dge.salud.visadocertificados.projection.SolicitudResumenAdministrador;
 import cl.ucn.dge.salud.visadocertificados.repository.RepositorioSolicitud;
@@ -91,6 +92,10 @@ public class ServicioSolicitud {
     }
     public SolicitudDetalladaMedico getSolicitudDetalladaMedico(Long id) {
         return this.repositorioSolicitud.getSolicitudDetalladaMedico(id);
+    }
+
+    public SolicitudDetalladaEstudiante getSolicitudDetalladaEstudiante(Long id){
+        return this.repositorioSolicitud.getSolicitudDetalladaEstudiante(id);
     }
 
 }

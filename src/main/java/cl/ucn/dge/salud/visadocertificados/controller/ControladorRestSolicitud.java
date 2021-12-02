@@ -5,6 +5,7 @@ import cl.ucn.dge.salud.visadocertificados.model.Rol;
 import cl.ucn.dge.salud.visadocertificados.model.Solicitud;
 import cl.ucn.dge.salud.visadocertificados.model.User;
 import cl.ucn.dge.salud.visadocertificados.projection.SolicitudDetalladaAdministrador;
+import cl.ucn.dge.salud.visadocertificados.projection.SolicitudDetalladaEstudiante;
 import cl.ucn.dge.salud.visadocertificados.projection.SolicitudDetalladaMedico;
 import cl.ucn.dge.salud.visadocertificados.projection.SolicitudResumenAdministrador;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioSolicitud;
@@ -45,7 +46,7 @@ public class ControladorRestSolicitud {
     }
 
     @PostMapping(value = "/solicitudes", consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
-    public ResponseEntity<String> registerNewTicket(@Validated @RequestPart CuerpoSolicitud solicitud,
+    public ResponseEntity<String> registrarSolicitud(@Validated @RequestPart CuerpoSolicitud solicitud,
                                                     @RequestParam("certificado") MultipartFile[] certificado,
                                                     @RequestParam("respaldo") MultipartFile[] respaldo) throws JsonProcessingException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -76,7 +77,7 @@ public class ControladorRestSolicitud {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         boolean hasUserRole = authentication.getAuthorities().stream()
-                .anyMatch(r -> r.getAuthority().equals(Rol.enumRole.ROL_ESTUDIANTE.name()));
+                .anyMatch(r -> r.getAuthority().equals(Rol.enumRole.ROL_MEDICO.name()));
         if(hasUserRole){
             String correo = (String) authentication.getPrincipal();
             return this.servicioSolicitud.getSolicitudDetalladaMedico(id);
@@ -102,7 +103,20 @@ public class ControladorRestSolicitud {
         return errors;
     }
     @GetMapping("/admin/solicitudes/{id}")
-    public SolicitudDetalladaAdministrador getSolicitudDetallaAdministrador(@PathVariable Long id) {
+    public SolicitudDetalladaAdministrador getSolicitudDetalladaAdministrador(@PathVariable Long id) {
         return this.servicioSolicitud.getSolicitudDetalladaAdministrador(id);
+    }
+
+    @GetMapping("/estudiante/solicitudes/{id}")
+    public SolicitudDetalladaEstudiante getSolicitudDetalladaEstudiante(@PathVariable Long id){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasUserRole = authentication.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals(Rol.enumRole.ROL_ESTUDIANTE.name()));
+        if(hasUserRole){
+            String correo = (String) authentication.getPrincipal();
+            return this.servicioSolicitud.getSolicitudDetalladaEstudiante(id);
+        }
+        return null;
     }
 }

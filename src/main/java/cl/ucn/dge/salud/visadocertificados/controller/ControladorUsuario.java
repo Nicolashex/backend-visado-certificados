@@ -41,6 +41,7 @@ public class ControladorUsuario {
         String mensaje;
 
         try{
+            //TODO: validar carrera string
             if(servicioUser.rutDisponible(registroUserDto.getRut())){
                 mensaje = "Error, rut ya se encuentra registrado";
                 return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(mensaje) ;
