@@ -70,18 +70,20 @@ public class ControladorRestSolicitud {
     }
 
     @GetMapping(value ="/medico/solicitudes/{id}")
-    public SolicitudDetalladaMedico getSolicitudDetallaMedico(@PathVariable Long id){
+    public SolicitudDetalladaMedico getSolicitudDetalladaMedico(@PathVariable Long id){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         boolean hasUserRole = authentication.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals(Rol.enumRole.ROL_MEDICO.name()));
         if(hasUserRole){
             String correo = (String) authentication.getPrincipal();
-            return this.servicioSolicitud.getSolicitudDetalladaMedico(id);
+            User medico = this.servicioUsuario.getUsuarioPorCorreo(correo);
+            return this.servicioSolicitud.getSolicitudDetalladaMedico(medico.getId());
         }
         return  null;
 
     }
+
 
     @GetMapping(value = "/solicitudes")
     public List<Solicitud> getAllSolicitudes(){
@@ -111,8 +113,21 @@ public class ControladorRestSolicitud {
         boolean hasUserRole = authentication.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals(Rol.enumRole.ROL_ESTUDIANTE.name()));
         if(hasUserRole){
-            String correo = (String) authentication.getPrincipal();
             return this.servicioSolicitud.getSolicitudDetalladaEstudiante(id);
+        }
+        return  null;
+
+    }
+    @GetMapping(value ="/medico/solicitudes/")
+    public List<SolicitudResumenMedico> getSolicitudResumidaMedico(){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasUserRole = authentication.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals(Rol.enumRole.ROL_MEDICO.name()));
+        if(hasUserRole){
+            String correo = (String) authentication.getPrincipal();
+            User medico = servicioUsuario.getUsuarioPorCorreo(correo);
+            return this.servicioSolicitud.getSolicitudesMedico(medico.getId());
         }
         return null;
     }
