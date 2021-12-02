@@ -17,7 +17,7 @@ public class RegistroUserDto {
     @NotBlank(message = "Rut no puede estar en blanco")
     @ValidacionRut(message = "Se requiere un rut valido")
     private String rut;
-    @NotBlank(message = "Correo no puede estar en blanco")
+    @NotBlank(message = "Credencial no puede estar en blanco")
     private String contrasena;
     @NotBlank(message = "Se requiere un nombre")
     @Pattern(message = "Nombre no valido",
