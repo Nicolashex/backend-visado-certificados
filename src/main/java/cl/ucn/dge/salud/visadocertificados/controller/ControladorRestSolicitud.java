@@ -4,10 +4,7 @@ import cl.ucn.dge.salud.visadocertificados.cuerpo_entidad.CuerpoSolicitud;
 import cl.ucn.dge.salud.visadocertificados.model.Rol;
 import cl.ucn.dge.salud.visadocertificados.model.Solicitud;
 import cl.ucn.dge.salud.visadocertificados.model.User;
-import cl.ucn.dge.salud.visadocertificados.projection.SolicitudDetalladaAdministrador;
-import cl.ucn.dge.salud.visadocertificados.projection.SolicitudDetalladaEstudiante;
-import cl.ucn.dge.salud.visadocertificados.projection.SolicitudDetalladaMedico;
-import cl.ucn.dge.salud.visadocertificados.projection.SolicitudResumenAdministrador;
+import cl.ucn.dge.salud.visadocertificados.projection.*;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioSolicitud;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioUsuario;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -117,6 +114,23 @@ public class ControladorRestSolicitud {
             String correo = (String) authentication.getPrincipal();
             return this.servicioSolicitud.getSolicitudDetalladaEstudiante(id);
         }
+        return null;
+    }
+
+    @GetMapping("/estudiante/solicitudes")
+    public List<SolicitudResumenEstudiante> getSolicitudesEstudiante(){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasUserRole = authentication.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals(Rol.enumRole.ROL_ESTUDIANTE.name()));
+
+        if(hasUserRole){
+            String correo = (String) authentication.getPrincipal();
+            User user = servicioUsuario.getUsuarioPorCorreo(correo);
+
+            return servicioSolicitud.getSolicitudEstudiante(user.getId());
+        }
+
         return null;
     }
 }

@@ -4,10 +4,7 @@ import cl.ucn.dge.salud.visadocertificados.cuerpo_entidad.CuerpoSolicitud;
 import cl.ucn.dge.salud.visadocertificados.model.Documento;
 import cl.ucn.dge.salud.visadocertificados.model.Solicitud;
 import cl.ucn.dge.salud.visadocertificados.model.User;
-import cl.ucn.dge.salud.visadocertificados.projection.SolicitudDetalladaAdministrador;
-import cl.ucn.dge.salud.visadocertificados.projection.SolicitudDetalladaEstudiante;
-import cl.ucn.dge.salud.visadocertificados.projection.SolicitudDetalladaMedico;
-import cl.ucn.dge.salud.visadocertificados.projection.SolicitudResumenAdministrador;
+import cl.ucn.dge.salud.visadocertificados.projection.*;
 import cl.ucn.dge.salud.visadocertificados.repository.RepositorioSolicitud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -96,6 +93,10 @@ public class ServicioSolicitud {
 
     public SolicitudDetalladaEstudiante getSolicitudDetalladaEstudiante(Long id){
         return this.repositorioSolicitud.getSolicitudDetalladaEstudiante(id);
+    }
+
+    public List<SolicitudResumenEstudiante> getSolicitudEstudiante(Long id){
+        return this.repositorioSolicitud.getSolicitudesEstudiante(id);
     }
 
 }
