@@ -17,8 +17,10 @@ public class Solicitud {
     @Column(name="id",nullable = false,unique = true)
     private Long id;
 
-    @Column(name="idProfesional",nullable = true)
-    private Long idProfesional;
+
+
+    @Column(name="rutMedicoTratante",nullable = false)
+    private String rutMedicoTratante;
 
     @Column(name="nombreMedicoTratante",nullable = false)
     private String nombreMedicoTratante;
@@ -85,12 +87,16 @@ public class Solicitud {
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User estudiante;
 
+    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private User idProfesional;
+
     public Solicitud() {
     }
 
-    public Solicitud(String nombreMedicoTratante, LocalDate fechaInicioReposo,
+    public Solicitud(String rutMedicoTratante, String nombreMedicoTratante, LocalDate fechaInicioReposo,
                      LocalDate fechaFinReposo, String motivo, String rutCarga, List<Documento> documentos,
                      User estudiante, boolean esCarga, String nombreCarga) {
+        this.rutMedicoTratante = rutMedicoTratante;
         this.nombreMedicoTratante = nombreMedicoTratante;
         this.fechaInicioReposo = fechaInicioReposo;
         this.fechaFinReposo = fechaFinReposo;
@@ -100,7 +106,7 @@ public class Solicitud {
         this.estudiante = estudiante;
         this.esCarga = esCarga;
         this.nombreCarga = nombreCarga;
-        this.estado = estadosPosibles.REVISION_PRERREQUISITOS;
+        this.estado = estadosPosibles.INGRESADO;
     }
 
     public Long getId() {
@@ -109,14 +115,6 @@ public class Solicitud {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getIdProfesional() {
-        return idProfesional;
-    }
-
-    public void setIdProfesional(Long idProfesional) {
-        this.idProfesional = idProfesional;
     }
 
     public String getNombreMedicoTratante() {
@@ -255,9 +253,32 @@ public class Solicitud {
         this.estudiante = estudiante;
     }
 
+    public String getRutMedicoTratante() {
+        return rutMedicoTratante;
+    }
+
+    public void setRutMedicoTratante(String rutMedicoTratante) {
+        this.rutMedicoTratante = rutMedicoTratante;
+    }
+
+    public User getIdProfesional() {
+        return idProfesional;
+    }
+
+    public void setIdProfesional(User idProfesional) {
+        this.idProfesional = idProfesional;
+    }
+
+
     public enum estadosPosibles {
-        REVISION_PRERREQUISITOS,
-        REVISION_DATOS
+
+        INGRESADO,
+        EN_EVALUACION,
+        EN_CORRECCION,
+        CORREGIDO,
+        APROBADO,
+        RECHAZADO,
+
     }
 
 }

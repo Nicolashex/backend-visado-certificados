@@ -18,6 +18,7 @@ public interface RepositorioSolicitud extends JpaRepository<Solicitud, Long> {
     long countByEstudianteAndStatus(User user, String status);
 
     List<SolicitudResumenAdministrador> getSolicitudByEstado(Solicitud.estadosPosibles estado);
+
     @Query("SELECT s FROM Solicitud s WHERE s.id=?1")
     SolicitudDetalladaAdministrador getSolicitudDetalladaAdministrador(Long id);
 

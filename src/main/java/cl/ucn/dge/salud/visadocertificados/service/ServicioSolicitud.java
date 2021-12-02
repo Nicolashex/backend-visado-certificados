@@ -56,7 +56,6 @@ public class ServicioSolicitud {
             }else if (solicitud.getNombreCarga().isBlank() || solicitud.getRutCarga().isBlank()) {
                 throw new IOException("Se requiere un nombre y rut para la carga asociada");
             }
-
         }
         List<Documento> documentos ;
         try{
@@ -73,14 +72,14 @@ public class ServicioSolicitud {
             nombreCarga = solicitud.getNombreCarga();
         }
 
-        Solicitud solicitudNueva = new Solicitud(solicitud.getNombreMedicoTratante(),solicitud.getFechaInicioReposo(),
+        Solicitud solicitudNueva = new Solicitud(solicitud.getRutMedicoTratante(),  solicitud.getNombreMedicoTratante(),solicitud.getFechaInicioReposo(),
                 solicitud.getFechaFinReposo(), solicitud.getMotivo(), rutCarga, documentos, estudiante,
                 solicitud.esCarga(), nombreCarga);
         return repositorioSolicitud.save(solicitudNueva);
 
     }
     public List<SolicitudResumenAdministrador> getSolicitudes(){
-        return this.repositorioSolicitud.getSolicitudByEstado(Solicitud.estadosPosibles.REVISION_PRERREQUISITOS);
+        return this.repositorioSolicitud.getSolicitudByEstado(Solicitud.estadosPosibles.INGRESADO);
     }
     public List<Solicitud> getAllSolicitudes(){
         return this.repositorioSolicitud.findAll();
@@ -89,4 +88,5 @@ public class ServicioSolicitud {
     public SolicitudDetalladaAdministrador getSolicitudDetalladaAdministrador(Long id) {
         return this.repositorioSolicitud.getSolicitudDetalladaAdministrador(id);
     }
+
 }

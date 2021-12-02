@@ -35,10 +35,15 @@ public class CuerpoSolicitud {
     @JsonProperty("nombre_carga")
     private String nombreCarga;
 
+    @JsonProperty("rutMedicoTratante")
+    private String rutMedicoTratante;
 
-    public CuerpoSolicitud(String nombreMedicoTratante, LocalDate fechaInicioReposo,
+
+
+    public CuerpoSolicitud(String rutMedicoTratante, String nombreMedicoTratante, LocalDate fechaInicioReposo,
                            LocalDate fechaFinReposo, String motivo, boolean esCarga,
                            String rutCarga, String nombreCarga) {
+        this.rutMedicoTratante = rutMedicoTratante;
         this.nombreMedicoTratante = nombreMedicoTratante;
         this.fechaInicioReposo = fechaInicioReposo;
         this.fechaFinReposo = fechaFinReposo;
@@ -104,16 +109,29 @@ public class CuerpoSolicitud {
         this.nombreCarga = nombreCarga;
     }
 
+    public boolean isEsCarga() {
+        return esCarga;
+    }
+
+    public String getRutMedicoTratante() {
+        return rutMedicoTratante;
+    }
+
+    public void setRutMedicoTratante(String rutMedicoTratante) {
+        this.rutMedicoTratante = rutMedicoTratante;
+    }
+
     @Override
     public String toString() {
         return "CuerpoSolicitud{" +
-                ", nombreMedicoTratante='" + nombreMedicoTratante + '\'' +
+                "nombreMedicoTratante='" + nombreMedicoTratante + '\'' +
                 ", fechaInicioReposo=" + fechaInicioReposo +
                 ", fechaFinReposo=" + fechaFinReposo +
                 ", motivo='" + motivo + '\'' +
                 ", esCarga=" + esCarga +
                 ", rutCarga='" + rutCarga + '\'' +
                 ", nombreCarga='" + nombreCarga + '\'' +
+                ", rutMedicoTratante='" + rutMedicoTratante + '\'' +
                 '}';
     }
 }

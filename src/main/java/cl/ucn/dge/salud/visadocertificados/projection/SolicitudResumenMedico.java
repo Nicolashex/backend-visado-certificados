@@ -16,4 +16,9 @@ public interface SolicitudResumenMedico {
     @Value("#{target.estudiante.correo}")
     String getCorreo();
 
+    String getEstado();
+
+    @Value("#{target.estudiante.rut}")
+    String getRut();
+
 }

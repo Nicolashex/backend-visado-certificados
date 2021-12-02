@@ -5,7 +5,8 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDateTime;
 
-public interface SolicitudResumenAdministrador {
+public interface SolicitudResumenEstudiante {
+
     Long getId();
     @JsonProperty("fecha_inicio_solicitud")
     LocalDateTime getFechaInicioSolicitud();
@@ -19,5 +20,7 @@ public interface SolicitudResumenAdministrador {
 
     @Value("#{target.estudiante.rut}")
     String getRut();
+
+
 
 }
