@@ -47,4 +47,15 @@ public interface SolicitudDetalladaAdministrador {
 
     @Value("#{target.estudiante.correo}")
     String getCorreo();
+
+    @JsonProperty("es_carga")
+    boolean isEsCarga();
+
+    @JsonProperty("nombre_carga")
+    String getNombreCarga();
+
+    @JsonProperty("rut_carga")
+    String getRutCarga();
+
+
 }
