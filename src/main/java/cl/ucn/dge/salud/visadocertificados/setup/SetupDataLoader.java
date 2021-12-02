@@ -122,6 +122,7 @@ public class SetupDataLoader implements
                      final String nombre, final String primerApellido, final String segundoApellido,
                      final String telefono, final String cargo, final String profesion) {
 
+
         RegistroMedicoDto rg = new RegistroMedicoDto(correo,rut,contrasena,nombre,primerApellido,segundoApellido,
                 profesion,telefono, cargo);
 

@@ -90,7 +90,10 @@ public class ServicioUsuario {
         user.setProfesion(registroMedicoDto.getProfesion());
         user.setCargo(registroMedicoDto.getCargo());
 
-        return repositorioUser.save(user);
+        if(!this.repositorioUser.existsByCorreo(user.getCorreo())){
+            return repositorioUser.save(user);
+        }
+        return null;
     }
 
     public User crearAdmin(RegistroAdminDto registroAdminDto){
@@ -108,11 +111,15 @@ public class ServicioUsuario {
         user.setProfesion(registroAdminDto.getProfesion());
         user.setCargo(registroAdminDto.getCargo());
 
-        return repositorioUser.save(user);
+        if(!this.repositorioUser.existsByCorreo(user.getCorreo())){
+            return repositorioUser.save(user);
+        }
+        return null;
 
     }
 
     public List<MedicoResumen> getMedicosResumen() {
         return this.repositorioUser.getUserByRole(Rol.enumRole.ROL_MEDICO);
     }
+
 }
