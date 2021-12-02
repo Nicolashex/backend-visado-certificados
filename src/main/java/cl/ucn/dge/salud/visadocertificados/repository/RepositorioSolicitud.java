@@ -3,6 +3,7 @@ package cl.ucn.dge.salud.visadocertificados.repository;
 import cl.ucn.dge.salud.visadocertificados.model.Solicitud;
 import cl.ucn.dge.salud.visadocertificados.model.User;
 import cl.ucn.dge.salud.visadocertificados.projection.SolicitudDetalladaAdministrador;
+import cl.ucn.dge.salud.visadocertificados.projection.SolicitudDetalladaMedico;
 import cl.ucn.dge.salud.visadocertificados.projection.SolicitudResumenAdministrador;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,6 +22,9 @@ public interface RepositorioSolicitud extends JpaRepository<Solicitud, Long> {
 
     @Query("SELECT s FROM Solicitud s WHERE s.id=?1")
     SolicitudDetalladaAdministrador getSolicitudDetalladaAdministrador(Long id);
+
+    @Query("SELECT s FROM Solicitud s WHERE s.id=?1 ")
+    SolicitudDetalladaMedico getSolicitudDetalladaMedico(Long id);
 
 
 }

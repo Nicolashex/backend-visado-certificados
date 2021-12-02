@@ -1,14 +1,16 @@
 package cl.ucn.dge.salud.visadocertificados.controller;
 
 import cl.ucn.dge.salud.visadocertificados.cuerpo_entidad.CuerpoSolicitud;
-import cl.ucn.dge.salud.visadocertificados.model.Documento;
+import cl.ucn.dge.salud.visadocertificados.model.Rol;
 import cl.ucn.dge.salud.visadocertificados.model.Solicitud;
+import cl.ucn.dge.salud.visadocertificados.model.User;
 import cl.ucn.dge.salud.visadocertificados.projection.SolicitudDetalladaAdministrador;
+import cl.ucn.dge.salud.visadocertificados.projection.SolicitudDetalladaMedico;
 import cl.ucn.dge.salud.visadocertificados.projection.SolicitudResumenAdministrador;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioSolicitud;
+import cl.ucn.dge.salud.visadocertificados.service.ServicioUsuario;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +33,15 @@ public class ControladorRestSolicitud {
     @Autowired
     private final ServicioSolicitud servicioSolicitud;
 
+    @Autowired
+    private final ServicioUsuario servicioUsuario;
 
 
-    public ControladorRestSolicitud(ServicioSolicitud servicioSolicitud) {
+
+    public ControladorRestSolicitud(ServicioSolicitud servicioSolicitud,
+                                    ServicioUsuario servicioUsuario) {
         this.servicioSolicitud = servicioSolicitud;
+        this.servicioUsuario = servicioUsuario;
     }
 
     @PostMapping(value = "/solicitudes", consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
@@ -64,6 +71,20 @@ public class ControladorRestSolicitud {
         return this.servicioSolicitud.getSolicitudes();
     }
 
+    @GetMapping(value ="/medico/solicitudes/{id}")
+    public SolicitudDetalladaMedico getSolicitudDetallaMedico(@PathVariable Long id){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasUserRole = authentication.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals(Rol.enumRole.ROL_ESTUDIANTE.name()));
+        if(hasUserRole){
+            String correo = (String) authentication.getPrincipal();
+            return this.servicioSolicitud.getSolicitudDetalladaMedico(id);
+        }
+        return  null;
+
+    }
+
     @GetMapping(value = "/solicitudes")
     public List<Solicitud> getAllSolicitudes(){
         return this.servicioSolicitud.getAllSolicitudes();
@@ -81,7 +102,7 @@ public class ControladorRestSolicitud {
         return errors;
     }
     @GetMapping("/admin/solicitudes/{id}")
-    public SolicitudDetalladaAdministrador getFile(@PathVariable Long id) {
+    public SolicitudDetalladaAdministrador getSolicitudDetallaAdministrador(@PathVariable Long id) {
         return this.servicioSolicitud.getSolicitudDetalladaAdministrador(id);
     }
 }
