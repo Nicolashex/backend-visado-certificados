@@ -26,7 +26,7 @@ public class ControladorRestDocumento {
     public ResponseEntity<byte[]> getFile(@PathVariable String id) {
         Documento documento = servicioDocumento.getDocumentoPorId(id);
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + documento.getId() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + documento.getNombre() + "\"")
                 .body(documento.getData());
     }
 }

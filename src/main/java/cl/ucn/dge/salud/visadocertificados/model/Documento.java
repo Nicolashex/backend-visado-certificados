@@ -27,13 +27,17 @@ public class Documento {
     @Column(name="tipo_archivo", nullable = true)
     private String tipoArchivo;
 
+    @Column(name="nombre")
+    private String nombre;
+
     public Documento() {
     }
 
-    public Documento(byte[] data, posiblesTiposDocumentos tipo, String tipoArchivo) {
+    public Documento(byte[] data, posiblesTiposDocumentos tipo, String tipoArchivo, String nombre) {
         this.data = data;
         this.tipo = tipo;
         this.tipoArchivo = tipoArchivo;
+        this.nombre = nombre;
     }
 
     public String getId() {
@@ -68,6 +72,13 @@ public class Documento {
         this.tipoArchivo = tipoArchivo;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
     public enum posiblesTiposDocumentos {
 

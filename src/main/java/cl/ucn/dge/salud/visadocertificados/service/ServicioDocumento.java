@@ -5,6 +5,7 @@ import cl.ucn.dge.salud.visadocertificados.repository.RepositorioDocumento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -28,17 +29,19 @@ public class ServicioDocumento {
         List<Documento> documentos = new ArrayList<Documento>();
         for (MultipartFile archivo : certificado) {
             String tipoArchivo = archivo.getContentType();
+            String nombreArchivo = StringUtils.cleanPath(archivo.getOriginalFilename());
             Documento documento = new Documento(archivo.getBytes(),
                     Documento.posiblesTiposDocumentos.CERTIFICADO,
-                    tipoArchivo);
+                    tipoArchivo, nombreArchivo);
             documentos.add(documento);
         }
 
         for (MultipartFile archivo : evidencia) {
             String tipoArchivo = archivo.getContentType();
+            String nombreArchivo = StringUtils.cleanPath(archivo.getOriginalFilename());
             Documento documento = new Documento(archivo.getBytes(),
                     Documento.posiblesTiposDocumentos.RESPALDO,
-                    tipoArchivo);
+                    tipoArchivo, nombreArchivo);
             documentos.add(documento);
         }
 
