@@ -1,12 +1,15 @@
 package cl.ucn.dge.salud.visadocertificados.repository;
 
+import cl.ucn.dge.salud.visadocertificados.model.Rol;
 import cl.ucn.dge.salud.visadocertificados.model.User;
+import cl.ucn.dge.salud.visadocertificados.projection.MedicoResumen;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -26,6 +29,9 @@ public interface RepositorioUser extends JpaRepository<User,Long> {
 
     @Query("SELECT s FROM User s WHERE s.rut = ?1")
     Optional<User>  findUserByRut(String rut);
+
+    @Query("SELECT s FROM User s WHERE s.rol.name=?1")
+    List<MedicoResumen> getUserByRole(Rol.enumRole rolMedico);
 
     /**
     boolean findByEmail(String correo);

@@ -5,6 +5,7 @@ import cl.ucn.dge.salud.visadocertificados.dto.RegistroUserDto;
 import cl.ucn.dge.salud.visadocertificados.model.Carrera;
 import cl.ucn.dge.salud.visadocertificados.model.Rol;
 import cl.ucn.dge.salud.visadocertificados.model.User;
+import cl.ucn.dge.salud.visadocertificados.projection.MedicoResumen;
 import cl.ucn.dge.salud.visadocertificados.repository.RepositorioCarrera;
 import cl.ucn.dge.salud.visadocertificados.repository.RepositorioRol;
 import cl.ucn.dge.salud.visadocertificados.repository.RepositorioUser;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -88,5 +90,9 @@ public class ServicioUsuario {
         user.setCargo(registroMedicoDto.getCargo());
 
         return repositorioUser.save(user);
+    }
+
+    public List<MedicoResumen> getMedicosResumen() {
+        return this.repositorioUser.getUserByRole(Rol.enumRole.ROL_MEDICO);
     }
 }

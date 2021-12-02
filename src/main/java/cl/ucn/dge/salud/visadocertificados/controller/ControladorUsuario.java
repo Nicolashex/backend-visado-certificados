@@ -2,19 +2,19 @@ package cl.ucn.dge.salud.visadocertificados.controller;
 
 import cl.ucn.dge.salud.visadocertificados.dto.RegistroUserDto;
 
+import cl.ucn.dge.salud.visadocertificados.projection.MedicoResumen;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioUsuario;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
-@RequestMapping("/registro")
+@RequestMapping("")
 public class ControladorUsuario {
 
     private ServicioUsuario servicioUser;
@@ -35,7 +35,7 @@ public class ControladorUsuario {
         return "registro";
     }
 
-    @PostMapping
+    @PostMapping("/registro")
     public ResponseEntity<String> registroUsuario(@RequestBody RegistroUserDto registroUserDto)  throws JsonProcessingException, IOException {
 
         String mensaje;
@@ -57,6 +57,10 @@ public class ControladorUsuario {
             mensaje = e.getMessage();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje);
         }
+    }
+    @GetMapping("/usuarios/medicos")
+    public List<MedicoResumen> getMedicos(){
+        return this.servicioUser.getMedicosResumen();
     }
 
 
