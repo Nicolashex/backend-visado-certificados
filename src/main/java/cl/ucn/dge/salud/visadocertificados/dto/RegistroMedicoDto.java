@@ -45,7 +45,8 @@ public class RegistroMedicoDto {
     public RegistroMedicoDto() {
     }
 
-    public RegistroMedicoDto(String correo, String rut, String contrasena, String nombre, String primerApellido, String segundoApellido, String profesion, String telefono) {
+    public RegistroMedicoDto(String correo, String rut, String contrasena, String nombre, String primerApellido,
+                             String segundoApellido, String profesion, String telefono, String cargo) {
         this.correo = correo;
         this.rut = rut;
         this.contrasena = contrasena;
@@ -54,6 +55,7 @@ public class RegistroMedicoDto {
         this.segundoApellido = segundoApellido;
         this.profesion = profesion;
         this.telefono = telefono;
+        this.cargo = cargo;
     }
 
     public String getCorreo() {

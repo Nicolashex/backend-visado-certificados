@@ -119,7 +119,7 @@ public class SetupDataLoader implements
                      final String telefono, final String cargo, final String profesion) {
 
         RegistroMedicoDto rg = new RegistroMedicoDto(correo,rut,contrasena,nombre,primerApellido,segundoApellido,
-                profesion,telefono);
+                profesion,telefono, cargo);
 
         servicioUsuario.crearMedico(rg);
 
