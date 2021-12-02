@@ -29,4 +29,8 @@ public interface RepositorioSolicitud extends JpaRepository<Solicitud, Long> {
 
     @Query("SELECT s FROM Solicitud s WHERE s.estudiante.id=?1")
     List<SolicitudResumenEstudiante> getSolicitudesEstudiante(Long id);
+
+    @Query("SELECT s FROM Solicitud s WHERE s.idProfesional.id=?1 and s.estado =?2")
+    List<SolicitudResumenMedico> getSolicitudesPorMedicoYEstado(Long id, Solicitud.estadosPosibles estado);
+
 }

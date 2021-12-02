@@ -99,4 +99,9 @@ public class ServicioSolicitud {
         return this.repositorioSolicitud.getSolicitudesEstudiante(id);
     }
 
+
+    public List<SolicitudResumenMedico> getSolicitudesMedico(Long id) {
+        return this.repositorioSolicitud.getSolicitudesPorMedicoYEstado(id,
+                Solicitud.estadosPosibles.EN_EVALUACION);
+    }
 }
