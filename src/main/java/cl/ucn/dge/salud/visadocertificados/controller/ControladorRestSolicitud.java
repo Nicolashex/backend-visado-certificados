@@ -78,7 +78,7 @@ public class ControladorRestSolicitud {
         if(hasUserRole){
             String correo = (String) authentication.getPrincipal();
             User medico = this.servicioUsuario.getUsuarioPorCorreo(correo);
-            return this.servicioSolicitud.getSolicitudDetalladaMedico(medico.getId());
+            return this.servicioSolicitud.getSolicitudDetalladaMedico(id,medico);
         }
         return  null;
 
@@ -113,7 +113,8 @@ public class ControladorRestSolicitud {
         boolean hasUserRole = authentication.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals(Rol.enumRole.ROL_ESTUDIANTE.name()));
         if(hasUserRole){
-            return this.servicioSolicitud.getSolicitudDetalladaEstudiante(id);
+            User estudiante = servicioUsuario.getUsuarioPorCorreo((String) authentication.getPrincipal());
+            return this.servicioSolicitud.getSolicitudDetalladaEstudiante(id,estudiante);
         }
         return  null;
 

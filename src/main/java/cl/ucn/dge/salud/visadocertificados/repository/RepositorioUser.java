@@ -38,5 +38,6 @@ public interface RepositorioUser extends JpaRepository<User,Long> {
 
     boolean findByRut(String rut);
      */
+
 }
 
