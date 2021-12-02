@@ -7,11 +7,13 @@ import cl.ucn.dge.salud.visadocertificados.model.User;
 import cl.ucn.dge.salud.visadocertificados.projection.*;
 import cl.ucn.dge.salud.visadocertificados.repository.RepositorioSolicitud;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.util.List;
@@ -85,14 +87,26 @@ public class ServicioSolicitud {
     }
 
     public SolicitudDetalladaAdministrador getSolicitudDetalladaAdministrador(Long id) {
+
         return this.repositorioSolicitud.getSolicitudDetalladaAdministrador(id);
+
     }
-    public SolicitudDetalladaMedico getSolicitudDetalladaMedico(Long id) {
-        return this.repositorioSolicitud.getSolicitudDetalladaMedico(id);
+    public SolicitudDetalladaMedico getSolicitudDetalladaMedico(Long id, User medico) {
+
+        if(this.repositorioSolicitud.existsSolicitudByIdProfesionalAndId(medico,id)){
+            return this.repositorioSolicitud.getSolicitudDetalladaMedico(id);
+        }else{
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
     }
 
-    public SolicitudDetalladaEstudiante getSolicitudDetalladaEstudiante(Long id){
-        return this.repositorioSolicitud.getSolicitudDetalladaEstudiante(id);
+    public SolicitudDetalladaEstudiante getSolicitudDetalladaEstudiante(Long idSolicitud, User estudiante) {
+
+        if(this.repositorioSolicitud.existsSolicitudByEstudianteAndId(estudiante,idSolicitud)){
+            return this.repositorioSolicitud.getSolicitudDetalladaEstudiante(idSolicitud);
+        }else{
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
     }
 
     public List<SolicitudResumenEstudiante> getSolicitudEstudiante(Long id){
