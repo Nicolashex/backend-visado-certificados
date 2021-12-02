@@ -1,6 +1,8 @@
 package cl.ucn.dge.salud.visadocertificados.setup;
 
+import cl.ucn.dge.salud.visadocertificados.dto.RegistroAdminDto;
 import cl.ucn.dge.salud.visadocertificados.dto.RegistroMedicoDto;
+import cl.ucn.dge.salud.visadocertificados.dto.RegistroUserDto;
 import cl.ucn.dge.salud.visadocertificados.model.Carrera;
 import cl.ucn.dge.salud.visadocertificados.model.Rol;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioCarrera;
@@ -45,6 +47,8 @@ public class SetupDataLoader implements
         crearRol(Rol.enumRole.ROL_ADMINISTRADOR);
         crearRol(Rol.enumRole.ROL_MEDICO);
 
+        crearAdmin("admin@correo.cl","12345678-9","contraseña","Admin","Admin",
+                "Admin","+5612345678","Administrador","Administrador");
 
         crearMedico("medico1@correo.cl","111111-2","contraseña","Osvaldo",
                 "Herrera","Urrutia","+569231412522","Personal evaluador","Medico general");
@@ -122,6 +126,17 @@ public class SetupDataLoader implements
                 profesion,telefono, cargo);
 
         servicioUsuario.crearMedico(rg);
+
+    }
+
+    void crearAdmin(final String correo, final String rut, final String contrasena,
+                    final String nombre, final String primerApellido, final String segundoApellido,
+                    final String telefono, final String cargo, final String profesion){
+
+        RegistroAdminDto rg = new RegistroAdminDto(correo,rut,contrasena,nombre,primerApellido,segundoApellido,telefono,
+                cargo,profesion);
+
+        servicioUsuario.crearAdmin(rg);
 
     }
 

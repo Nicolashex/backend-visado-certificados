@@ -1,5 +1,6 @@
 package cl.ucn.dge.salud.visadocertificados.service;
 
+import cl.ucn.dge.salud.visadocertificados.dto.RegistroAdminDto;
 import cl.ucn.dge.salud.visadocertificados.dto.RegistroMedicoDto;
 import cl.ucn.dge.salud.visadocertificados.dto.RegistroUserDto;
 import cl.ucn.dge.salud.visadocertificados.model.Carrera;
@@ -90,6 +91,25 @@ public class ServicioUsuario {
         user.setCargo(registroMedicoDto.getCargo());
 
         return repositorioUser.save(user);
+    }
+
+    public User crearAdmin(RegistroAdminDto registroAdminDto){
+
+        User user = new User();
+
+        user.setCorreo(registroAdminDto.getCorreo());
+        user.setRut(registroAdminDto.getRut());
+        user.setContrasena(passwordEncoder.encode(registroAdminDto.getContrasena()));
+        user.setNombre(registroAdminDto.getNombre());
+        user.setPrimerApellido(registroAdminDto.getPrimerApellido());
+        user.setSegundoApellido(registroAdminDto.getSegundoApellido());
+        user.setTelefono(registroAdminDto.getTelefono());
+        user.setRoles(repositoriRol.findByName(Rol.enumRole.ROL_ADMINISTRADOR));
+        user.setProfesion(registroAdminDto.getProfesion());
+        user.setCargo(registroAdminDto.getCargo());
+
+        return repositorioUser.save(user);
+
     }
 
     public List<MedicoResumen> getMedicosResumen() {
