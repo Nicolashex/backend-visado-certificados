@@ -1,9 +1,11 @@
 package cl.ucn.dge.salud.visadocertificados.setup;
 
+import cl.ucn.dge.salud.visadocertificados.dto.RegistroMedicoDto;
 import cl.ucn.dge.salud.visadocertificados.model.Carrera;
 import cl.ucn.dge.salud.visadocertificados.model.Rol;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioCarrera;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioRol;
+import cl.ucn.dge.salud.visadocertificados.service.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -22,6 +24,8 @@ public class SetupDataLoader implements
     private ServicioRol servicioRol;
     @Autowired
     private ServicioCarrera servicioCarrera;
+    @Autowired
+    private ServicioUsuario servicioUsuario;
 
 
 
@@ -39,6 +43,20 @@ public class SetupDataLoader implements
         }
         crearRol(Rol.enumRole.ROL_ESTUDIANTE);
         crearRol(Rol.enumRole.ROL_ADMINISTRADOR);
+        crearRol(Rol.enumRole.ROL_MEDICO);
+
+
+        crearMedico("medico1@correo.cl","111111-2","contraseña","Osvaldo",
+                "Herrera","Urrutia","+569231412522","Personal evaluador","Medico general");
+
+        crearMedico("medico2@correo.cl","222222-2","contraseña2","Josefina",
+                "Rojo","Valdes","+569231412522","Personal evaluador","Dentista");
+
+        crearMedico("medico3@correo.cl","3333333-2","contraseña3","Nicolas",
+                "Pereira","Farfan","+569231412522","Personal evaluador","Psicologo");
+
+        crearMedico("medico4@correo.cl","6666666-2","contraseña3","Paula",
+                "Daza","Rojas","+569231412522","Personal evaluador","Medico general");
 
         crearCarrera("Analista Químico", "Antofagasta", "DISC");
         crearCarrera("Arquitectura", "Antofagasta", "DISC");
@@ -95,6 +113,17 @@ public class SetupDataLoader implements
         servicioCarrera.guardarCarrera(nuevaCarrera);
     }
 
+    @Transactional
+    void crearMedico(final String correo, final String rut, final String contrasena,
+                     final String nombre, final String primerApellido, final String segundoApellido,
+                     final String telefono, final String cargo, final String profesion) {
+
+        RegistroMedicoDto rg = new RegistroMedicoDto(correo,rut,contrasena,nombre,primerApellido,segundoApellido,
+                profesion,telefono);
+
+        servicioUsuario.crearMedico(rg);
+
+    }
 
 
 }
