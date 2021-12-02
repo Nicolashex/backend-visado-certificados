@@ -1,5 +1,6 @@
 package cl.ucn.dge.salud.visadocertificados.service;
 
+import cl.ucn.dge.salud.visadocertificados.dto.RegistroMedicoDto;
 import cl.ucn.dge.salud.visadocertificados.dto.RegistroUserDto;
 import cl.ucn.dge.salud.visadocertificados.model.Carrera;
 import cl.ucn.dge.salud.visadocertificados.model.Rol;
@@ -38,6 +39,7 @@ public class ServicioUsuario {
     public User getUsuarioById(Long idAlumno) {
         return repositorioUser.getById(idAlumno);
     }
+
     public Optional<User> findUsersByEmail (String correo){
         return repositorioUser.findUserByCorreo(correo);
     }
@@ -67,6 +69,24 @@ public class ServicioUsuario {
                 //registroUserDto.getCargo(),
                 //registroUserDto.getProfesion(),
                 rol);
+        return repositorioUser.save(user);
+    }
+
+    public User crearMedico(RegistroMedicoDto registroMedicoDto){
+
+        User user = new User();
+
+        user.setCorreo(registroMedicoDto.getCorreo());
+        user.setRut(registroMedicoDto.getRut());
+        user.setContrasena(passwordEncoder.encode(registroMedicoDto.getContrasena()));
+        user.setNombre(registroMedicoDto.getNombre());
+        user.setPrimerApellido(registroMedicoDto.getPrimerApellido());
+        user.setSegundoApellido(registroMedicoDto.getSegundoApellido());
+        user.setTelefono(registroMedicoDto.getTelefono());
+        user.setRoles(repositoriRol.findByName(Rol.enumRole.ROL_MEDICO));
+        user.setProfesion(registroMedicoDto.getProfesion());
+        user.setCargo(registroMedicoDto.getCargo());
+
         return repositorioUser.save(user);
     }
 }
