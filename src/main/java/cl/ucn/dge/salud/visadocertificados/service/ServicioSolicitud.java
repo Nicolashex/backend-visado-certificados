@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServicioSolicitud {
@@ -117,5 +118,39 @@ public class ServicioSolicitud {
     public List<SolicitudResumenMedico> getSolicitudesMedico(Long id) {
         return this.repositorioSolicitud.getSolicitudesPorMedicoYEstado(id,
                 Solicitud.estadosPosibles.EN_EVALUACION);
+    }
+
+    @Transactional
+    public void modificarSolicitudAdministrador(Long id, Long idProfesional,
+                                                String comentario,
+                                                Solicitud.estadosPosibles estado) throws IOException {
+        Optional<Solicitud> existeSolicitud = repositorioSolicitud.findById(id);
+        if(!existeSolicitud.isPresent()){
+            throw new IOException("Solicitud no existe");
+        }
+        Solicitud solicitud = repositorioSolicitud.getSolicitudById(id);
+        Optional<User> medicoExiste = servicioUsuario.existeMedicoPorId(idProfesional);
+        switch(estado) {
+            case EN_EVALUACION:
+                if(!medicoExiste.isPresent()){
+                    throw new IOException("No existe un medico con ese id");
+                }
+                solicitud.setComentario(comentario);
+                solicitud.setIdProfesional(servicioUsuario.getUsuarioById(idProfesional));
+                solicitud.setEstado(Solicitud.estadosPosibles.EN_EVALUACION);
+                break;
+            case EN_CORRECCION:
+                solicitud.setComentario(comentario);
+                solicitud.setEstado(Solicitud.estadosPosibles.EN_CORRECCION);
+                break;
+            case RECHAZADO:
+                solicitud.setComentario(comentario);
+                solicitud.setEstado(Solicitud.estadosPosibles.EN_CORRECCION);
+            default:
+                throw new IOException("estado ingresado no valido");
+        }
+
+
+
     }
 }

@@ -1,6 +1,7 @@
 package cl.ucn.dge.salud.visadocertificados.controller;
 
 import cl.ucn.dge.salud.visadocertificados.cuerpo_entidad.CuerpoSolicitud;
+import cl.ucn.dge.salud.visadocertificados.dto.ModificarSolicitudAdministradorDto;
 import cl.ucn.dge.salud.visadocertificados.model.Rol;
 import cl.ucn.dge.salud.visadocertificados.model.Solicitud;
 import cl.ucn.dge.salud.visadocertificados.model.User;
@@ -164,5 +165,21 @@ public class ControladorRestSolicitud {
         }
 
         return null;
+    }
+
+    @PatchMapping("/admin/solicitudes/{id}")
+    public ResponseEntity<String> updateEmployeePartially(@PathVariable Long id,
+                                                          @RequestBody ModificarSolicitudAdministradorDto cambios) {
+        String mensaje = "";
+        try {
+            servicioSolicitud.modificarSolicitudAdministrador(id, cambios.getIdProfesional(),
+                    cambios.getComentario(),
+                    cambios.getEstado());
+            mensaje = "Solicitud modificada de forma exitosa";
+            return ResponseEntity.status(HttpStatus.OK).body(mensaje);
+        } catch (Exception e) {
+            mensaje = e.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje);
+        }
     }
 }

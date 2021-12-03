@@ -122,4 +122,9 @@ public class ServicioUsuario {
         return this.repositorioUser.getUserByRole(Rol.enumRole.ROL_MEDICO);
     }
 
+
+
+    public Optional<User> existeMedicoPorId(Long id) {
+        return repositorioUser.findUserByIdAndRol(id, Rol.enumRole.ROL_MEDICO);
+    }
 }

@@ -33,6 +33,9 @@ public interface RepositorioUser extends JpaRepository<User,Long> {
     @Query("SELECT s FROM User s WHERE s.rol.name=?1")
     List<MedicoResumen> getUserByRole(Rol.enumRole rolMedico);
 
+    @Query("SELECT s FROM User s WHERE s.id =?1 and s.rol.name=?2")
+    Optional<User> findUserByIdAndRol(Long id, Rol.enumRole rolMedico);
+
     /**
     boolean findByEmail(String correo);
 
