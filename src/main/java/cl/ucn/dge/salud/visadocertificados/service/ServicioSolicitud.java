@@ -16,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -124,6 +126,7 @@ public class ServicioSolicitud {
     public void modificarSolicitudAdministrador(Long id, Long idProfesional,
                                                 String comentario,
                                                 Solicitud.estadosPosibles estado) throws IOException {
+
         Optional<Solicitud> existeSolicitud = repositorioSolicitud.findById(id);
         if(!existeSolicitud.isPresent()){
             throw new IOException("Solicitud no existe");
@@ -131,13 +134,18 @@ public class ServicioSolicitud {
         Solicitud solicitud = repositorioSolicitud.getSolicitudById(id);
         Optional<User> medicoExiste = servicioUsuario.existeMedicoPorId(idProfesional);
         switch(estado) {
+
             case EN_EVALUACION:
                 if(!medicoExiste.isPresent()){
                     throw new IOException("No existe un medico con ese id");
                 }
                 solicitud.setComentario(comentario);
                 solicitud.setIdProfesional(servicioUsuario.getUsuarioById(idProfesional));
-                solicitud.setEstado(Solicitud.estadosPosibles.EN_EVALUACION);
+
+                if (!solicitud.getEstado().equals(Solicitud.estadosPosibles.EN_EVALUACION.name())){
+                    solicitud.setIngresoEvaluacion(LocalDateTime.now());
+                    solicitud.setEstado(Solicitud.estadosPosibles.EN_EVALUACION);
+                }
                 break;
             case EN_CORRECCION:
                 solicitud.setComentario(comentario);
@@ -145,11 +153,23 @@ public class ServicioSolicitud {
                 break;
             case RECHAZADO:
                 solicitud.setComentario(comentario);
-                solicitud.setEstado(Solicitud.estadosPosibles.EN_CORRECCION);
+                if (!solicitud.getEstado().equals(Solicitud.estadosPosibles.RECHAZADO.name())){
+                    solicitud.setIngresoEvaluacion(LocalDateTime.now());
+                    solicitud.setEstado(Solicitud.estadosPosibles.RECHAZADO);
+                }
+                break;
             default:
-                throw new IOException("estado ingresado no valido");
+                throw new IOException("Estado ingresado no valido");
         }
+    }
 
+    public void modificarSolicitudMedico(Long id, String comentario,
+                                         Solicitud.estadosPosibles estado) throws IOException {
+
+        Optional<Solicitud> existeSolicitud = repositorioSolicitud.findById(id);
+        if(!existeSolicitud.isPresent()){
+            throw new IOException("Solicitud no existe");
+        }
 
 
     }

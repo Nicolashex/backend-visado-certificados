@@ -47,7 +47,7 @@ public class SetupDataLoader implements
         crearRol(Rol.enumRole.ROL_ADMINISTRADOR);
         crearRol(Rol.enumRole.ROL_MEDICO);
 
-        crearAdmin("admin@correo.cl","12345678-9","contraseña","Admin","Admin",
+        crearAdmin("admin@correo.cl","12345678-9","admin","Admin","Admin",
                 "Admin","+5612345678","Administrador","Administrador");
 
         crearMedico("medico1@correo.cl","111111-2","contraseña","Osvaldo",

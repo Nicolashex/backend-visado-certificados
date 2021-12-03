@@ -2,6 +2,7 @@ package cl.ucn.dge.salud.visadocertificados.controller;
 
 import cl.ucn.dge.salud.visadocertificados.cuerpo_entidad.CuerpoSolicitud;
 import cl.ucn.dge.salud.visadocertificados.dto.ModificarSolicitudAdministradorDto;
+import cl.ucn.dge.salud.visadocertificados.dto.ModificarSolicitudMedicoDto;
 import cl.ucn.dge.salud.visadocertificados.model.Rol;
 import cl.ucn.dge.salud.visadocertificados.model.Solicitud;
 import cl.ucn.dge.salud.visadocertificados.model.User;
@@ -168,11 +169,32 @@ public class ControladorRestSolicitud {
     }
 
     @PatchMapping("/admin/solicitudes/{id}")
-    public ResponseEntity<String> updateEmployeePartially(@PathVariable Long id,
+    public ResponseEntity<String> updateSolicitudAdministrador(@PathVariable Long id,
                                                           @RequestBody ModificarSolicitudAdministradorDto cambios) {
         String mensaje = "";
+
+        /**
+         * NOTA IMPORTANTE
+         * SIEMPRE DEBE ENVIAR EL ESTADO, DEBE SER DIFERENTE DE NULL
+         */
         try {
             servicioSolicitud.modificarSolicitudAdministrador(id, cambios.getIdProfesional(),
+                    cambios.getComentario(),
+                    cambios.getEstado());
+            mensaje = "Solicitud modificada de forma exitosa";
+            return ResponseEntity.status(HttpStatus.OK).body(mensaje);
+        } catch (Exception e) {
+            mensaje = e.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje);
+        }
+    }
+
+    @PatchMapping("/medico/solicitudes/{id}")
+    public ResponseEntity<String> updateSolicitudMedico(@PathVariable Long id,
+                                                        @RequestBody ModificarSolicitudMedicoDto cambios){
+        String mensaje = "";
+        try {
+            servicioSolicitud.modificarSolicitudMedico(id,
                     cambios.getComentario(),
                     cambios.getEstado());
             mensaje = "Solicitud modificada de forma exitosa";

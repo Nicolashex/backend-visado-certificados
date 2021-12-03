@@ -17,8 +17,6 @@ public class Solicitud {
     @Column(name="id",nullable = false,unique = true)
     private Long id;
 
-
-
     @Column(name="rutMedicoTratante",nullable = false)
     private String rutMedicoTratante;
 
