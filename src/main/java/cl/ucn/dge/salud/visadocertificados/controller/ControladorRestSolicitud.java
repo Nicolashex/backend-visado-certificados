@@ -223,42 +223,55 @@ public class ControladorRestSolicitud {
     @Transactional
     @PostMapping(value ="/estudiante/solicitudes/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
     public ResponseEntity<String> updateSolicitudEstudiante(@PathVariable Long id,
-                                                            @RequestPart ModificarSolicitudEstudianteDto cambios) throws JsonProcessingException {
-                                                            //@RequestParam("certificado") MultipartFile[] certificado,
-                                                            //@RequestParam("respaldo") MultipartFile[] respaldo) throws JsonProcessingException {
-
-
-        Solicitud solicitud = this.servicioSolicitud.getSolicitudById(id);
-
-        //Eliminar los archivos que no esten en la lista cambios.getListaId
-        List<String> listaId = cambios.getListaIdDocumento();
-
-        //Cargar los documentos para la solicitud
-        List<Documento> listDocumentos = this.servicioSolicitud.getDocumentoById(id);
-
-        List<String> eliminados = new ArrayList<>();
-
-        for(Documento documento : listDocumentos){
-
-            String idDocumento = documento.getId();
-
-            if(listaId.contains(idDocumento)){
-                //Eliminar el documento
-                //this.servicioDocumento.eliminarDocumento(documento);
-
-                //solicitud.eliminarDocumento(documento);
-                eliminados.add(idDocumento);
-            }
-        }
-        for(String documentoEliminado : eliminados){
-            Documento documento =servicioDocumento.getDocumentoPorId(documentoEliminado);
-            solicitud.eliminarDocumento(documento);
-        }
-
-
+                                                            @RequestPart ModificarSolicitudEstudianteDto cambios,
+                                                            @RequestParam("certificado") MultipartFile[] certificado,
+                                                            @RequestParam("respaldo") MultipartFile[] respaldo) throws IOException {
 
         String mensaje = "";
+        try {
+            //Primero evaluar si es posible modificar el form
+            servicioSolicitud.modificarSolicitudEstudiante(
+                    id,
+                    cambios
+            );
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje);
+            //Evaluar documentos
+            Solicitud solicitud = this.servicioSolicitud.getSolicitudById(id);
+
+            //Eliminar los archivos que no esten en la lista cambios.getListaId
+            List<String> listaId = cambios.getListaIdDocumento();
+
+            //Cargar los documentos para la solicitud
+            List<Documento> listDocumentos = this.servicioSolicitud.getDocumentoById(id);
+
+            //lista auxiliar para eliminar
+            List<String> eliminados = new ArrayList<>();
+
+            if (listaId != null) {
+                for (Documento documento : listDocumentos) {
+                    String idDocumento = documento.getId();
+                    if (listaId.contains(idDocumento)) {
+                        eliminados.add(idDocumento);
+                    }
+                }
+                for (String documentoEliminado : eliminados) {
+                    Documento documento = servicioDocumento.getDocumentoPorId(documentoEliminado);
+                    solicitud.eliminarDocumento(documento);
+                }
+            }
+
+            List<Documento> lista = this.servicioDocumento.guardarDocumento(certificado, respaldo);
+            solicitud.agregarDocumentos(lista);
+
+            //Cambio de estado a CORREGIDO
+            solicitud.setEstado(Solicitud.estadosPosibles.CORREGIDO);
+
+            mensaje = "Solicitud modificada de forma exitosa";
+            return ResponseEntity.status(HttpStatus.OK).body(mensaje);
+
+        }catch (Exception e){
+            mensaje = e.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje);
+        }
     }
 }

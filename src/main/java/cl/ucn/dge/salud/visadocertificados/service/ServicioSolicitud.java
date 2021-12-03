@@ -1,6 +1,7 @@
 package cl.ucn.dge.salud.visadocertificados.service;
 
 import cl.ucn.dge.salud.visadocertificados.cuerpo_entidad.CuerpoSolicitud;
+import cl.ucn.dge.salud.visadocertificados.dto.ModificarSolicitudEstudianteDto;
 import cl.ucn.dge.salud.visadocertificados.model.Documento;
 import cl.ucn.dge.salud.visadocertificados.model.Solicitud;
 import cl.ucn.dge.salud.visadocertificados.model.User;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -84,7 +86,9 @@ public class ServicioSolicitud {
     }
     public List<SolicitudResumenAdministrador> getSolicitudes(){
         //TODO: habilitar al administrador ver todas las solicitudes
-        return this.repositorioSolicitud.getSolicitudByEstado(Solicitud.estadosPosibles.INGRESADO);
+        List<SolicitudResumenAdministrador> lista = this.repositorioSolicitud.getSolicitudByEstado(Solicitud.estadosPosibles.INGRESADO);
+        lista.addAll(this.repositorioSolicitud.getSolicitudByEstado(Solicitud.estadosPosibles.CORREGIDO));
+        return lista;
     }
     public List<Solicitud> getAllSolicitudes(){
         return this.repositorioSolicitud.findAll();
@@ -196,6 +200,42 @@ public class ServicioSolicitud {
             default:
                 throw new IOException("Estado ingresado no valido");
         }
+    }
+
+    public void modificarSolicitudEstudiante(Long id, ModificarSolicitudEstudianteDto modificarSolicitudEstudianteDto) throws IOException {
+
+
+        Optional<Solicitud> existeSolicitud = repositorioSolicitud.findById(id);
+        if(!existeSolicitud.isPresent()){
+            throw new IOException("Solicitud no existe");
+        }
+
+        Solicitud solicitud = repositorioSolicitud.getSolicitudById(id);
+
+        //Solo puede editar si esta en estado EN_CORRECION
+        if (solicitud.getEstado().name().equals(Solicitud.estadosPosibles.EN_CORRECCION.name())) {
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            if(modificarSolicitudEstudianteDto.getNombreCarga() != null) {solicitud.setNombreCarga(modificarSolicitudEstudianteDto.getNombreCarga());}
+            if(modificarSolicitudEstudianteDto.getRutCarga() != null){solicitud.setRutCarga(modificarSolicitudEstudianteDto.getRutCarga());}
+            if(modificarSolicitudEstudianteDto.getDiagnostico() != null){solicitud.setMotivo(modificarSolicitudEstudianteDto.getDiagnostico());}
+            if(modificarSolicitudEstudianteDto.getNombreMedicoTratante() != null){  solicitud.setNombreMedicoTratante(modificarSolicitudEstudianteDto.getNombreMedicoTratante());}
+            if(modificarSolicitudEstudianteDto.getRutMedicoTratante() != null){  solicitud.setRutMedicoTratante(modificarSolicitudEstudianteDto.getRutMedicoTratante());}
+            if(modificarSolicitudEstudianteDto.getFechaInicioReposo() != null){
+                solicitud.setFechaInicioReposo(LocalDate.parse(modificarSolicitudEstudianteDto.getFechaInicioReposo(),
+                    formatter));
+            }
+            if(modificarSolicitudEstudianteDto.getFechaFinReposo() != null){
+            solicitud.setFechaFinReposo(LocalDate.parse(modificarSolicitudEstudianteDto.getFechaFinReposo(),
+                    formatter));
+            }
+        }else{
+            throw new IOException("Estado no permite modificaciones");
+        }
+
+
+
     }
 
     public List<Documento> getDocumentoById(Long id){
