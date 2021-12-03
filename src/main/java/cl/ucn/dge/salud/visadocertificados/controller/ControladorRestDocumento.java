@@ -25,8 +25,11 @@ public class ControladorRestDocumento {
     @GetMapping("/documentos/{id}")
     public ResponseEntity<byte[]> getFile(@PathVariable String id) {
         Documento documento = servicioDocumento.getDocumentoPorId(id);
+        String extesionArchivo =  documento.getTipoArchivo();
+        String aux = extesionArchivo.substring(extesionArchivo.lastIndexOf("/") + 1);
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + documento.getNombre() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""
+                        + documento.getId() + "." + aux +"\"")
                 .body(documento.getData());
     }
 }
