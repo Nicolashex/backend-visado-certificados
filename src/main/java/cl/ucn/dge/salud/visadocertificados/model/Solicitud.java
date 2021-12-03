@@ -50,12 +50,14 @@ public class Solicitud {
     @Column(name="estado",columnDefinition = "varchar(255) default 'Ingresada'" )
     private estadosPosibles estado;
 
+    //TODO: Eliminar ya no se utiliza
     @Column(name="resolucion",columnDefinition = "varchar(255) default 'Por evaluar'" )
     private String resolucion;
 
     @Column(name="comentario")
     private String comentario;
 
+    //TODO:Eliminar ya no se utiliza
     @JsonProperty("comentario_medico")
     @Column(name="comentario_medico")
     private String comentarioMedico;

@@ -168,14 +168,14 @@ public class ControladorRestSolicitud {
         return null;
     }
 
-    @PatchMapping("/admin/solicitudes/{id}")
+    @PostMapping("/admin/solicitudes/{id}")
     public ResponseEntity<String> updateSolicitudAdministrador(@PathVariable Long id,
                                                           @RequestBody ModificarSolicitudAdministradorDto cambios) {
         String mensaje = "";
 
         /**
          * NOTA IMPORTANTE
-         * SIEMPRE DEBE ENVIAR EL ESTADO, DEBE SER DIFERENTE DE NULL
+         * SIEMPRE DEBE ENVIAR EL ESTADO, DEBE SER DIFERENTE DE NULLs
          */
         try {
             servicioSolicitud.modificarSolicitudAdministrador(id, cambios.getIdProfesional(),
@@ -189,14 +189,19 @@ public class ControladorRestSolicitud {
         }
     }
 
-    @PatchMapping("/medico/solicitudes/{id}")
+    @PostMapping("/medico/solicitudes/{id}")
     public ResponseEntity<String> updateSolicitudMedico(@PathVariable Long id,
                                                         @RequestBody ModificarSolicitudMedicoDto cambios){
         String mensaje = "";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String correoMedico = (String) authentication.getPrincipal();
+
         try {
-            servicioSolicitud.modificarSolicitudMedico(id,
+            servicioSolicitud.modificarSolicitudMedico(
+                    id, //id solicitud
                     cambios.getComentario(),
-                    cambios.getEstado());
+                    cambios.getEstado(), //no null
+                    correoMedico);
             mensaje = "Solicitud modificada de forma exitosa";
             return ResponseEntity.status(HttpStatus.OK).body(mensaje);
         } catch (Exception e) {

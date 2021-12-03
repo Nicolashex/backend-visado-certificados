@@ -83,6 +83,7 @@ public class ServicioSolicitud {
 
     }
     public List<SolicitudResumenAdministrador> getSolicitudes(){
+        //TODO: habilitar al administrador ver todas las solicitudes
         return this.repositorioSolicitud.getSolicitudByEstado(Solicitud.estadosPosibles.INGRESADO);
     }
     public List<Solicitud> getAllSolicitudes(){
@@ -154,7 +155,7 @@ public class ServicioSolicitud {
             case RECHAZADO:
                 solicitud.setComentario(comentario);
                 if (!solicitud.getEstado().equals(Solicitud.estadosPosibles.RECHAZADO.name())){
-                    solicitud.setIngresoEvaluacion(LocalDateTime.now());
+                    solicitud.setFechaFinSolicitud(LocalDateTime.now());
                     solicitud.setEstado(Solicitud.estadosPosibles.RECHAZADO);
                 }
                 break;
@@ -163,14 +164,37 @@ public class ServicioSolicitud {
         }
     }
 
+    @Transactional
     public void modificarSolicitudMedico(Long id, String comentario,
-                                         Solicitud.estadosPosibles estado) throws IOException {
+                                         Solicitud.estadosPosibles estado,
+                                         String correoMedico) throws IOException {
+
+        User medico = this.servicioUsuario.getUsuarioPorCorreo(correoMedico);
 
         Optional<Solicitud> existeSolicitud = repositorioSolicitud.findById(id);
         if(!existeSolicitud.isPresent()){
             throw new IOException("Solicitud no existe");
+        }else if(!repositorioSolicitud.existsSolicitudByIdProfesionalAndId(medico,id)){
+            throw new IOException("Solicitud no corresponde al profesional");
         }
 
+        Solicitud solicitud = repositorioSolicitud.getSolicitudById(id);
+        solicitud.setComentario(comentario);
+        solicitud.setFechaFinSolicitud(LocalDateTime.now());
+        solicitud.setRespuestaEvaluacion(LocalDateTime.now());
 
+        switch (estado){
+
+            case RECHAZADO:
+                solicitud.setEstado(Solicitud.estadosPosibles.RECHAZADO);
+                break;
+
+            case APROBADO:
+                solicitud.setEstado(Solicitud.estadosPosibles.APROBADO);
+                break;
+
+            default:
+                throw new IOException("Estado ingresado no valido");
+        }
     }
 }
