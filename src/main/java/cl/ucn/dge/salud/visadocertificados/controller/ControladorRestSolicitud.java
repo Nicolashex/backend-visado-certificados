@@ -2,11 +2,14 @@ package cl.ucn.dge.salud.visadocertificados.controller;
 
 import cl.ucn.dge.salud.visadocertificados.cuerpo_entidad.CuerpoSolicitud;
 import cl.ucn.dge.salud.visadocertificados.dto.ModificarSolicitudAdministradorDto;
+import cl.ucn.dge.salud.visadocertificados.dto.ModificarSolicitudEstudianteDto;
 import cl.ucn.dge.salud.visadocertificados.dto.ModificarSolicitudMedicoDto;
+import cl.ucn.dge.salud.visadocertificados.model.Documento;
 import cl.ucn.dge.salud.visadocertificados.model.Rol;
 import cl.ucn.dge.salud.visadocertificados.model.Solicitud;
 import cl.ucn.dge.salud.visadocertificados.model.User;
 import cl.ucn.dge.salud.visadocertificados.projection.*;
+import cl.ucn.dge.salud.visadocertificados.service.ServicioDocumento;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioSolicitud;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioUsuario;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -16,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -37,12 +41,17 @@ public class ControladorRestSolicitud {
     @Autowired
     private final ServicioUsuario servicioUsuario;
 
+    @Autowired
+    private final ServicioDocumento servicioDocumento;
+
 
 
     public ControladorRestSolicitud(ServicioSolicitud servicioSolicitud,
-                                    ServicioUsuario servicioUsuario) {
+                                    ServicioUsuario servicioUsuario,
+                                    ServicioDocumento servicioDocumento) {
         this.servicioSolicitud = servicioSolicitud;
         this.servicioUsuario = servicioUsuario;
+        this.servicioDocumento = servicioDocumento;
     }
 
     @PostMapping(value = "/solicitudes", consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
@@ -208,5 +217,39 @@ public class ControladorRestSolicitud {
             mensaje = e.getMessage();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje);
         }
+    }
+
+    @PostMapping(value ="/estudiante/solicitudes/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
+    public ResponseEntity<String> updateSolicitudEstudiante(@PathVariable Long id,
+                                                            @RequestPart ModificarSolicitudEstudianteDto cambios) throws JsonProcessingException {
+                                                            //@RequestParam("certificado") MultipartFile[] certificado,
+                                                            //@RequestParam("respaldo") MultipartFile[] respaldo) throws JsonProcessingException {
+
+
+        Solicitud solicitud = this.servicioSolicitud.getSolicitudById(id);
+
+        //Eliminar los archivos que no esten en la lista cambios.getListaId
+        List<String> listaId = cambios.getListaIdDocumento();
+
+        //Cargar los documentos para la solicitud
+        List<Documento> listDocumentos = this.servicioSolicitud.getDocumentoById(id);
+
+        for(Documento documento : listDocumentos){
+
+            String idDocumento = documento.getId();
+
+            if(listaId.contains(idDocumento)){
+                //Eliminar el documento
+                //this.servicioDocumento.eliminarDocumento(documento);
+
+                solicitud.eliminarDocumento(documento);
+
+            }
+        }
+
+
+        String mensaje = "";
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje);
     }
 }

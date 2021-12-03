@@ -28,21 +28,28 @@ public class ServicioDocumento {
 
         List<Documento> documentos = new ArrayList<Documento>();
         for (MultipartFile archivo : certificado) {
+
             String tipoArchivo = archivo.getContentType();
             String nombreArchivo = StringUtils.cleanPath(archivo.getOriginalFilename());
-            Documento documento = new Documento(archivo.getBytes(),
-                    Documento.posiblesTiposDocumentos.CERTIFICADO,
-                    tipoArchivo, nombreArchivo);
-            documentos.add(documento);
+
+            if(tipoArchivo != null && !nombreArchivo.equals("")){
+                Documento documento = new Documento(archivo.getBytes(),
+                        Documento.posiblesTiposDocumentos.CERTIFICADO,
+                        tipoArchivo, nombreArchivo);
+                documentos.add(documento);
+            }
         }
 
         for (MultipartFile archivo : evidencia) {
             String tipoArchivo = archivo.getContentType();
             String nombreArchivo = StringUtils.cleanPath(archivo.getOriginalFilename());
-            Documento documento = new Documento(archivo.getBytes(),
-                    Documento.posiblesTiposDocumentos.RESPALDO,
-                    tipoArchivo, nombreArchivo);
-            documentos.add(documento);
+
+            if(tipoArchivo != null && !nombreArchivo.equals("")) {
+                Documento documento = new Documento(archivo.getBytes(),
+                        Documento.posiblesTiposDocumentos.RESPALDO,
+                        tipoArchivo, nombreArchivo);
+                documentos.add(documento);
+            }
         }
 
 
@@ -51,5 +58,14 @@ public class ServicioDocumento {
     public Documento getDocumentoPorId(String id){
         return this.repositorioDocumento.getDocumentoById(id);
 
+    }
+
+    @Transactional
+    public void eliminarDocumento(Documento documento){
+        this.repositorioDocumento.deleteById(documento.getId());
+    }
+
+    public boolean estaPorId(String id){
+        return this.repositorioDocumento.existsById(id);
     }
 }

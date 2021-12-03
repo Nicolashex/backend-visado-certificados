@@ -197,4 +197,14 @@ public class ServicioSolicitud {
                 throw new IOException("Estado ingresado no valido");
         }
     }
+
+    public List<Documento> getDocumentoById(Long id){
+
+        Solicitud solicitud = this.repositorioSolicitud.getSolicitudById(id);
+        return solicitud.getDocumentos();
+    }
+
+    public Solicitud getSolicitudById(Long id){
+        return repositorioSolicitud.getSolicitudById(id);
+    }
 }

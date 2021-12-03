@@ -80,7 +80,7 @@ public class Solicitud {
     @Column(name="RespuestaEvaluacion")
     private LocalDateTime RespuestaEvaluacion;
 
-    @OneToMany(targetEntity = Documento.class, cascade=CascadeType.ALL)
+    @OneToMany(targetEntity = Documento.class, orphanRemoval = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "solicitud",referencedColumnName = "id")
     private List<Documento> documentos;
 
@@ -278,6 +278,12 @@ public class Solicitud {
         CORREGIDO,
         APROBADO,
         RECHAZADO,
+
+    }
+
+    public void eliminarDocumento(Documento documento) {
+
+        this.documentos.remove(documento);
 
     }
 
