@@ -282,9 +282,7 @@ public class Solicitud {
     }
 
     public void eliminarDocumento(Documento documento) {
-
-        this.documentos.remove(documento);
-
+        documentos.remove(documento);
     }
 
 }

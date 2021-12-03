@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -219,6 +220,7 @@ public class ControladorRestSolicitud {
         }
     }
 
+    @Transactional
     @PostMapping(value ="/estudiante/solicitudes/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
     public ResponseEntity<String> updateSolicitudEstudiante(@PathVariable Long id,
                                                             @RequestPart ModificarSolicitudEstudianteDto cambios) throws JsonProcessingException {
@@ -234,6 +236,8 @@ public class ControladorRestSolicitud {
         //Cargar los documentos para la solicitud
         List<Documento> listDocumentos = this.servicioSolicitud.getDocumentoById(id);
 
+        List<String> eliminados = new ArrayList<>();
+
         for(Documento documento : listDocumentos){
 
             String idDocumento = documento.getId();
@@ -242,10 +246,15 @@ public class ControladorRestSolicitud {
                 //Eliminar el documento
                 //this.servicioDocumento.eliminarDocumento(documento);
 
-                solicitud.eliminarDocumento(documento);
-
+                //solicitud.eliminarDocumento(documento);
+                eliminados.add(idDocumento);
             }
         }
+        for(String documentoEliminado : eliminados){
+            Documento documento =servicioDocumento.getDocumentoPorId(documentoEliminado);
+            solicitud.eliminarDocumento(documento);
+        }
+
 
 
         String mensaje = "";
