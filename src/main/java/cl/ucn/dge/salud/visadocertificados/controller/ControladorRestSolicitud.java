@@ -18,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -66,7 +67,15 @@ public class ControladorRestSolicitud {
     }
     @GetMapping(value = "/admin/solicitudes")
     public List<SolicitudResumenAdministrador> getSolicitudes(){
-        return this.servicioSolicitud.getSolicitudes();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasUserRole = authentication.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals(Rol.enumRole.ROL_ADMINISTRADOR.name()));
+        if(hasUserRole) {
+            return this.servicioSolicitud.getSolicitudes();
+        }
+
+        return null;
+
     }
 
     @GetMapping(value ="/medico/solicitudes/{id}")
@@ -103,7 +112,14 @@ public class ControladorRestSolicitud {
     }
     @GetMapping("/admin/solicitudes/{id}")
     public SolicitudDetalladaAdministrador getSolicitudDetalladaAdministrador(@PathVariable Long id) {
-        return this.servicioSolicitud.getSolicitudDetalladaAdministrador(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasUserRole = authentication.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals(Rol.enumRole.ROL_ADMINISTRADOR.name()));
+        if(hasUserRole) {
+            return this.servicioSolicitud.getSolicitudDetalladaAdministrador(id);
+        }else{
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
     }
 
     @GetMapping("/estudiante/solicitudes/{id}")
