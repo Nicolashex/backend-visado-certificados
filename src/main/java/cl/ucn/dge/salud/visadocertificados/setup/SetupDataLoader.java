@@ -59,9 +59,10 @@ public class SetupDataLoader implements
         crearMedico("medico3@correo.cl","3333333-2","contraseña3","Nicolas",
                 "Pereira","Farfan","+569231412522","Personal evaluador","Psicologo");
 
-        crearMedico("medico4@correo.cl","6666666-2","contraseña3","Paula",
+        crearMedico(" ","6666666-2","contraseña3","Paula",
                 "Daza","Rojas","+569231412522","Personal evaluador","Medico general");
 
+        crearCarrera("Postgrado","General","UCN");
         crearCarrera("Analista Químico", "Antofagasta", "DISC");
         crearCarrera("Arquitectura", "Antofagasta", "DISC");
         crearCarrera("Contador Auditor - Contador Público Diurno", "Antofagasta", "DISC");
