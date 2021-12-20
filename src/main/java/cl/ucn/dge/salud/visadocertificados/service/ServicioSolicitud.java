@@ -7,6 +7,7 @@ import cl.ucn.dge.salud.visadocertificados.model.Solicitud;
 import cl.ucn.dge.salud.visadocertificados.model.User;
 import cl.ucn.dge.salud.visadocertificados.projection.*;
 import cl.ucn.dge.salud.visadocertificados.repository.RepositorioSolicitud;
+import cl.ucn.dge.salud.visadocertificados.service.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,13 +42,17 @@ public class ServicioSolicitud {
     @Autowired
     private final ServicioCarrera servicioCarrera;
 
+    @Autowired
+    private final EmailService emailService;
+
     public ServicioSolicitud(RepositorioSolicitud repositorioSolicitud,
                              ServicioDocumento servicioDocumento,
-                             ServicioUsuario servicioUsuario, ServicioCarrera servicioCarrera) {
+                             ServicioUsuario servicioUsuario, ServicioCarrera servicioCarrera, EmailService emailService) {
         this.repositorioSolicitud = repositorioSolicitud;
         this.servicioDocumento = servicioDocumento;
         this.servicioUsuario = servicioUsuario;
         this.servicioCarrera = servicioCarrera;
+        this.emailService = emailService;
     }
     @Transactional
     public Solicitud ingresarSolicitud(final @RequestBody CuerpoSolicitud solicitud,
@@ -81,6 +87,7 @@ public class ServicioSolicitud {
         Solicitud solicitudNueva = new Solicitud(solicitud.getRutMedicoTratante(),  solicitud.getNombreMedicoTratante(),solicitud.getFechaInicioReposo(),
                 solicitud.getFechaFinReposo(), solicitud.getMotivo(), rutCarga, documentos, estudiante,
                 solicitud.esCarga(), nombreCarga);
+
         return repositorioSolicitud.save(solicitudNueva);
 
     }
@@ -130,7 +137,7 @@ public class ServicioSolicitud {
     @Transactional
     public void modificarSolicitudAdministrador(Long id, Long idProfesional,
                                                 String comentario,
-                                                Solicitud.estadosPosibles estado) throws IOException {
+                                                Solicitud.estadosPosibles estado) throws IOException, MessagingException {
 
         Optional<Solicitud> existeSolicitud = repositorioSolicitud.findById(id);
         if(!existeSolicitud.isPresent()){
@@ -138,6 +145,7 @@ public class ServicioSolicitud {
         }
         Solicitud solicitud = repositorioSolicitud.getSolicitudById(id);
         Optional<User> medicoExiste = servicioUsuario.existeMedicoPorId(idProfesional);
+        User estudiante = solicitud.getEstudiante();
         switch(estado) {
 
             case EN_EVALUACION:
@@ -145,11 +153,16 @@ public class ServicioSolicitud {
                     throw new IOException("No existe un medico con ese id");
                 }
                 solicitud.setComentario(comentario);
-                solicitud.setIdProfesional(servicioUsuario.getUsuarioById(idProfesional));
+                User medico = servicioUsuario.getUsuarioById(idProfesional);
+                solicitud.setIdProfesional(medico);
 
                 if (!solicitud.getEstado().equals(Solicitud.estadosPosibles.EN_EVALUACION.name())){
                     solicitud.setIngresoEvaluacion(LocalDateTime.now());
                     solicitud.setEstado(Solicitud.estadosPosibles.EN_EVALUACION);
+                    emailService.enviarMensaje(medico.getCorreo(),
+                            "Nueva solicitud de visado asignada",
+                            "Se le ha asignado la solicitud de visado con ID:"+
+                            solicitud.getId());
                 }
                 break;
             case EN_CORRECCION:
@@ -161,6 +174,10 @@ public class ServicioSolicitud {
                 if (!solicitud.getEstado().equals(Solicitud.estadosPosibles.RECHAZADO.name())){
                     solicitud.setFechaFinSolicitud(LocalDateTime.now());
                     solicitud.setEstado(Solicitud.estadosPosibles.RECHAZADO);
+                    emailService.enviarMensaje(estudiante.getCorreo(),
+                            "Solicitud de visado rechazada",
+                            "Estimado estudiante " + estudiante.getNombre() +
+                            ", la solicitud de visado con ID:" + solicitud.getId() +" ha sido RECHAZADA");
                 }
                 break;
             default:
@@ -171,7 +188,7 @@ public class ServicioSolicitud {
     @Transactional
     public void modificarSolicitudMedico(Long id, String comentario,
                                          Solicitud.estadosPosibles estado,
-                                         String correoMedico) throws IOException {
+                                         String correoMedico) throws IOException, MessagingException {
 
         User medico = this.servicioUsuario.getUsuarioPorCorreo(correoMedico);
 
@@ -186,15 +203,23 @@ public class ServicioSolicitud {
         solicitud.setComentario(comentario);
         solicitud.setFechaFinSolicitud(LocalDateTime.now());
         solicitud.setRespuestaEvaluacion(LocalDateTime.now());
-
+        User estudiante = solicitud.getEstudiante();
         switch (estado){
 
             case RECHAZADO:
                 solicitud.setEstado(Solicitud.estadosPosibles.RECHAZADO);
+                emailService.enviarMensaje(estudiante.getCorreo(),
+                        "Solicitud de visado rechazada",
+                        "Estimado estudiante " + estudiante.getNombre() +
+                                ", la solicitud de visado con ID:" + solicitud.getId() +" ha sido RECHAZADA");
                 break;
 
             case APROBADO:
                 solicitud.setEstado(Solicitud.estadosPosibles.APROBADO);
+                emailService.enviarMensaje(estudiante.getCorreo(),
+                        "Solicitud de visado aprobada",
+                        "Estimado estudiante " + estudiante.getNombre() +
+                                ", la solicitud de visado con ID:" + solicitud.getId() +" ha sido APROBADA");
                 break;
 
             default:

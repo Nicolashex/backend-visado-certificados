@@ -1,6 +1,8 @@
 package cl.ucn.dge.salud.visadocertificados.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -19,6 +21,7 @@ public class User {
     @Column(name="rut",nullable = false,unique = true)
     private String rut;
 
+    @JsonIgnore
     @Column(name="contrasena",nullable = false)
     private String contrasena;
 

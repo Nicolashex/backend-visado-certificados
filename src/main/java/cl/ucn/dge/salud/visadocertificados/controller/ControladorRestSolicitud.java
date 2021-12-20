@@ -12,6 +12,7 @@ import cl.ucn.dge.salud.visadocertificados.projection.*;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioDocumento;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioSolicitud;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioUsuario;
+import cl.ucn.dge.salud.visadocertificados.service.email.EmailService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,14 +47,18 @@ public class ControladorRestSolicitud {
     @Autowired
     private final ServicioDocumento servicioDocumento;
 
+    @Autowired
+    private final EmailService emailService;
+
 
 
     public ControladorRestSolicitud(ServicioSolicitud servicioSolicitud,
                                     ServicioUsuario servicioUsuario,
-                                    ServicioDocumento servicioDocumento) {
+                                    ServicioDocumento servicioDocumento, EmailService emailService) {
         this.servicioSolicitud = servicioSolicitud;
         this.servicioUsuario = servicioUsuario;
         this.servicioDocumento = servicioDocumento;
+        this.emailService = emailService;
     }
 
     @PostMapping(value = "/solicitudes", consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
@@ -274,4 +280,9 @@ public class ControladorRestSolicitud {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje);
         }
     }
+    @GetMapping("/xd")
+    public void testEmail() throws MessagingException {
+        emailService.enviarMensaje("nicolashex1@gmail.com","Prueba de email", "muyy buenas que tal todo");
+    }
+
 }
