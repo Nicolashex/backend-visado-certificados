@@ -58,7 +58,7 @@ public class ServicioSolicitud {
     public Solicitud ingresarSolicitud(final @RequestBody CuerpoSolicitud solicitud,
                                        final String correoUsuario,
                                        @RequestPart MultipartFile[] certificado,
-                                       @RequestPart MultipartFile[] respaldo) throws InternalError, IOException {
+                                       @RequestPart MultipartFile[] respaldo) throws InternalError, IOException, MessagingException {
 
 
         User estudiante = servicioUsuario.getUsuarioPorCorreo(correoUsuario);
@@ -88,7 +88,10 @@ public class ServicioSolicitud {
                 solicitud.getFechaFinReposo(), solicitud.getMotivo(), rutCarga, documentos, estudiante,
                 solicitud.esCarga(), nombreCarga);
 
-        return repositorioSolicitud.save(solicitudNueva);
+        solicitudNueva =  repositorioSolicitud.save(solicitudNueva);
+        emailService.notificarEstudianteIngresoSolicitud(estudiante, solicitudNueva);
+
+        return solicitudNueva;
 
     }
     public List<SolicitudResumenAdministrador> getSolicitudes(){
@@ -159,25 +162,20 @@ public class ServicioSolicitud {
                 if (!solicitud.getEstado().equals(Solicitud.estadosPosibles.EN_EVALUACION.name())){
                     solicitud.setIngresoEvaluacion(LocalDateTime.now());
                     solicitud.setEstado(Solicitud.estadosPosibles.EN_EVALUACION);
-                    emailService.enviarMensaje(medico.getCorreo(),
-                            "Nueva solicitud de visado asignada",
-                            "Se le ha asignado la solicitud de visado con ID:"+
-                            solicitud.getId());
+                    emailService.notificarAsignacionDeSolicitudMedico(medico, solicitud);
                 }
                 break;
             case EN_CORRECCION:
                 solicitud.setComentario(comentario);
                 solicitud.setEstado(Solicitud.estadosPosibles.EN_CORRECCION);
+                emailService.notificarEstudianteCorrecionSolicitud(estudiante, solicitud);
                 break;
             case RECHAZADO:
                 solicitud.setComentario(comentario);
                 if (!solicitud.getEstado().equals(Solicitud.estadosPosibles.RECHAZADO.name())){
                     solicitud.setFechaFinSolicitud(LocalDateTime.now());
                     solicitud.setEstado(Solicitud.estadosPosibles.RECHAZADO);
-                    emailService.enviarMensaje(estudiante.getCorreo(),
-                            "Solicitud de visado rechazada",
-                            "Estimado estudiante " + estudiante.getNombre() +
-                            ", la solicitud de visado con ID:" + solicitud.getId() +" ha sido RECHAZADA");
+                    emailService.notificarEstudianteRechazoSolicitud(estudiante, solicitud);
                 }
                 break;
             default:
@@ -208,18 +206,12 @@ public class ServicioSolicitud {
 
             case RECHAZADO:
                 solicitud.setEstado(Solicitud.estadosPosibles.RECHAZADO);
-                emailService.enviarMensaje(estudiante.getCorreo(),
-                        "Solicitud de visado rechazada",
-                        "Estimado estudiante " + estudiante.getNombre() +
-                                ", la solicitud de visado con ID:" + solicitud.getId() +" ha sido RECHAZADA");
+                emailService.notificarEstudianteRechazoSolicitud(estudiante, solicitud);
                 break;
 
             case APROBADO:
                 solicitud.setEstado(Solicitud.estadosPosibles.APROBADO);
-                emailService.enviarMensaje(estudiante.getCorreo(),
-                        "Solicitud de visado aprobada",
-                        "Estimado estudiante " + estudiante.getNombre() +
-                                ", la solicitud de visado con ID:" + solicitud.getId() +" ha sido APROBADA");
+                emailService.notificarEstudianteAprobacionSolicitud(estudiante, solicitud);
                 break;
 
             default:
