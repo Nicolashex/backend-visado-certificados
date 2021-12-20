@@ -1,5 +1,7 @@
 package cl.ucn.dge.salud.visadocertificados.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class Carrera {
     @Column(name="departamento", nullable = true)
     private String departamento;
 
+    @JsonIgnore
     @OneToMany(mappedBy ="carrera", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<User> estudiantes;
 
