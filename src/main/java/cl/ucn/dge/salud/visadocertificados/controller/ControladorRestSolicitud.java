@@ -13,6 +13,7 @@ import cl.ucn.dge.salud.visadocertificados.service.ServicioDocumento;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioSolicitud;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioUsuario;
 import cl.ucn.dge.salud.visadocertificados.service.email.EmailService;
+import cl.ucn.dge.salud.visadocertificados.utils.SolicitudesExcelExport;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,11 +29,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 @RequestMapping("/v1")
@@ -51,10 +52,10 @@ public class ControladorRestSolicitud {
     private final EmailService emailService;
 
 
-
     public ControladorRestSolicitud(ServicioSolicitud servicioSolicitud,
                                     ServicioUsuario servicioUsuario,
-                                    ServicioDocumento servicioDocumento, EmailService emailService) {
+                                    ServicioDocumento servicioDocumento,
+                                    EmailService emailService) {
         this.servicioSolicitud = servicioSolicitud;
         this.servicioUsuario = servicioUsuario;
         this.servicioDocumento = servicioDocumento;
@@ -182,6 +183,25 @@ public class ControladorRestSolicitud {
         }
 
         return null;
+    }
+
+    @GetMapping("/reportes/solicitudes")
+    public void exportExcel(HttpServletResponse response) throws IOException{
+
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=solicitudes_" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+
+        List<Solicitud> listaSolicitudes = servicioSolicitud.getAllSolicitudes();
+
+        SolicitudesExcelExport excelExport = new SolicitudesExcelExport(listaSolicitudes);
+
+        excelExport.export(response);
+
     }
 
     @PostMapping("/admin/solicitudes/{id}")
