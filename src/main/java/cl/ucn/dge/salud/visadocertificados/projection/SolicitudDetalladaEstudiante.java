@@ -57,4 +57,8 @@ public interface SolicitudDetalladaEstudiante {
     @JsonProperty("isValorado")
     boolean isValorado();
 
+    @JsonProperty("id_certificado")
+    @Value("#{(target.certificado.id != null ? (target.certificado.id):null)}")
+    String idCertificado();
+
 }
