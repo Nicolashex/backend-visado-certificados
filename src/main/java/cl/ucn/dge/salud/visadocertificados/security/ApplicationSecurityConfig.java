@@ -79,6 +79,9 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                         JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/registro").permitAll()
+                .antMatchers("/v1/documentos/**").permitAll()
+                .antMatchers("/v1/reportes/solicitudes").permitAll()
+                .antMatchers("/v1/reportes/valoraciones").permitAll()
                 .anyRequest()
                 .authenticated();
     }

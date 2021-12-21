@@ -14,16 +14,19 @@ public class CuerpoValoracion {
     private Long idSolicitud;
 
     @NotNull(message = "Se requiere una valoracion valida")
+    @NotBlank(message = "Se requiere una valoracion")
     @Min(1)
     @Max(5)
     private Integer valoracion1;
 
     @NotNull(message = "Se requiere una valoracion valida")
+    @NotBlank(message = "Se requiere una valoracion")
     @Min(1)
     @Max(5)
     private Integer valoracion2;
 
     @NotNull(message = "Se requiere una valoracion valida")
+    @NotBlank(message = "Se requiere una valoracion")
     @Min(1)
     @Max(5)
     private Integer valoracion3;

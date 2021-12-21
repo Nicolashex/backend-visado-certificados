@@ -40,7 +40,7 @@ public class Valoracion {
     }
 
     public Valoracion(Solicitud solicitud, LocalDateTime fechaEvaluacion, Integer valoracion1, Integer valoracion2,
-                      Integer valoracion3, String comentario) {
+                      Integer valoracion3, String comentario ) {
 
         this.solicitud = solicitud;
         this.fechaEvaluacion = fechaEvaluacion;
