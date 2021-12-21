@@ -81,6 +81,9 @@ public class ControladorRestSolicitud {
         } catch (IOException e) {
             mensaje = e.getMessage();
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(mensaje);
+        } catch (MessagingException e) {
+            mensaje = e.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje);
         }
 
     }
@@ -303,6 +306,7 @@ public class ControladorRestSolicitud {
     @GetMapping("/xd")
     public void testEmail() throws MessagingException {
         emailService.enviarMensaje("nicolashex1@gmail.com","Prueba de email", "muyy buenas que tal todo");
+
     }
 
 }
