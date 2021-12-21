@@ -46,8 +46,8 @@ public class EmailService {
     public void notificarEstudianteIngresoSolicitud(User estudiante, Solicitud solicitud) throws MessagingException {
 
         String mensaje = "Estimad@ " + estudiante.getNombre() + ": \n" +
-                "Tu solicitud de visado N°" + solicitud.getId() +
-                "fue ingresada correctamente, en el caso de que necesite correciones el equipo de " +
+                "La solicitud de visado con ID: " + solicitud.getId() +
+                " fue ingresada correctamente, en el caso de que necesite correciones el equipo de " +
                 "administración se contactará contigo de lo contrario un profesional evaluador revisará" +
                 "tu solicitud.";
         String asunto = "Actualización de solicitud de visado";
@@ -56,8 +56,8 @@ public class EmailService {
     public void notificarEstudianteCorrecionSolicitud(User estudiante, Solicitud solicitud) throws MessagingException {
 
         String mensaje = "Estimad@ " + estudiante.getNombre() + ":\n" +
-                "Tu solicitud de visado N°" + solicitud.getId() +
-                "necesita ser corregida. Para editarla dirígete a la sección: Menu principal ->" +
+                "La solicitud de visado con ID: " + solicitud.getId() +
+                " necesita ser corregida. Para editarla dirígete a la sección: Menu principal ->" +
                 " Ver solicitudes -> Modificar.";
         String asunto = "Actualización de solicitud de visado";
         enviarMensaje(estudiante.getCorreo(), asunto, mensaje);
@@ -65,28 +65,28 @@ public class EmailService {
     public void notificarAsignacionDeSolicitudMedico(User medico, Solicitud solicitud) throws MessagingException {
 
         String mensaje = "Estimad@ " + medico.getNombre() + ":\n" +
-                "Se le ha asignado la solicitud de visado con N°: " + solicitud.getId() +
-                "para su pronta corrección";
-        String asunto = "Actualización de solicitud de visado";
+                "Se le ha asignado la solicitud de visado con ID: " + solicitud.getId() +
+                " para su pronta corrección.";
+        String asunto = "Asignacion de solicitud de visado.";
         enviarMensaje(medico.getCorreo(), asunto, mensaje);
     }
 
     public void notificarEstudianteAprobacionSolicitud(User estudiante, Solicitud solicitud) throws MessagingException {
 
         String mensaje = "Estimad@ " + estudiante.getNombre() + ": \n" +
-                "Tu solicitud de visado N°" + solicitud.getId() +
+                "La solicitud de visado con ID: " + solicitud.getId() +
                 "ha sido APROBADA. Recuerda que para visualizarla debes dirigirte al apartado: Menu principal -> " +
                 "Ver solicitudes y presionar el botón VER de la solicitud correspondiente \n" +
                 "Recuerda que para visualizar el documento visado debes responder la evaluación del servicio antes.";
-        String asunto = "Solicitud de visado aprobada ";
+        String asunto = "Solicitud de visado aprobada.";
         enviarMensaje(estudiante.getCorreo(), asunto, mensaje);
     }
     public void notificarEstudianteRechazoSolicitud(User estudiante, Solicitud solicitud) throws MessagingException {
 
         String mensaje = "Estimad@ " + estudiante.getNombre() + ": \n" +
                 "Tu solicitud de visado N°" + solicitud.getId() +
-                "ha sido RECHAZADA.";
-        String asunto = "Solicitud de visado rechazada ";
+                " ha sido RECHAZADA.";
+        String asunto = "Solicitud de visado rechazada.";
         enviarMensaje(estudiante.getCorreo(), asunto, mensaje);
     }
 
