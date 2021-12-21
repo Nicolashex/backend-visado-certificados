@@ -40,6 +40,9 @@ public interface SolicitudDetalladaAdministrador {
 
     String getComentario();
 
+    @JsonProperty("comentario_medico")
+    String getComentarioMedico();
+
     Solicitud.estadosPosibles getEstado();
 
     @Value("#{(target.idProfesional != null ? (target.idProfesional.nombre + ' ' + target.idProfesional.apellido):null)}")

@@ -9,11 +9,15 @@ public class ModificarSolicitudAdministradorDto {
     @JsonProperty("id")
     private Long idProfesional;
     String comentario;
+    @JsonProperty("comentario_medico")
+    String comentarioMedico;
     Solicitud.estadosPosibles estado;
 
-    public ModificarSolicitudAdministradorDto(Long idProfesional, String comentario, Solicitud.estadosPosibles estado) {
+    public ModificarSolicitudAdministradorDto(Long idProfesional, String comentario,
+                                              Solicitud.estadosPosibles estado, String comentarioMedico) {
         this.idProfesional = idProfesional;
         this.comentario = comentario;
+        this.comentarioMedico = comentarioMedico;
         this.estado = estado;
     }
 
@@ -39,6 +43,14 @@ public class ModificarSolicitudAdministradorDto {
 
     public void setEstado(Solicitud.estadosPosibles estado) {
         this.estado = estado;
+    }
+
+    public String getComentarioMedico() {
+        return comentarioMedico;
+    }
+
+    public void setComentarioMedico(String comentarioMedico) {
+        this.comentarioMedico = comentarioMedico;
     }
 }
 

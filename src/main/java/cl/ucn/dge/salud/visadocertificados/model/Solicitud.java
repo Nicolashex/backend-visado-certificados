@@ -50,6 +50,7 @@ public class Solicitud {
     @Column(name="estado",columnDefinition = "varchar(255) default 'Ingresada'" )
     private estadosPosibles estado;
 
+    //TODO: Eliminar ya no se utiliza
     @Column(name="resolucion",columnDefinition = "varchar(255) default 'Por evaluar'" )
     private String resolucion;
 
@@ -88,6 +89,11 @@ public class Solicitud {
 
     @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User idProfesional;
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="id_certificado",referencedColumnName = "id")
+    private Certificado certificado;
 
     @Column(name = "is_valorado",nullable = false)
     private boolean isValorado;
@@ -280,6 +286,13 @@ public class Solicitud {
         this.idProfesional = idProfesional;
     }
 
+    public Certificado getCertificado() {
+        return certificado;
+    }
+
+    public void setCertificado(Certificado certificado) {
+        this.certificado = certificado;
+    }
 
     public enum estadosPosibles {
 
@@ -299,7 +312,8 @@ public class Solicitud {
     public void agregarDocumentos(List<Documento> lista){
 
         documentos.addAll(lista);
-
     }
+
+
 
 }

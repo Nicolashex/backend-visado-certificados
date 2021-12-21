@@ -1,6 +1,7 @@
 package cl.ucn.dge.salud.visadocertificados.dto;
 
 import cl.ucn.dge.salud.visadocertificados.model.Solicitud;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotBlank;
 
@@ -9,14 +10,15 @@ public class ModificarSolicitudMedicoDto {
     @NotBlank(message = "Debe seleccionar un estado")
     Solicitud.estadosPosibles estado;
 
-    String comentario;
+    @JsonProperty("comentario_medico")
+    String comentarioMedico;
 
     public ModificarSolicitudMedicoDto() {
     }
 
-    public ModificarSolicitudMedicoDto(Solicitud.estadosPosibles estado, String comentario) {
+    public ModificarSolicitudMedicoDto(Solicitud.estadosPosibles estado, String comentarioMedico) {
         this.estado = estado;
-        this.comentario = comentario;
+        this.comentarioMedico = comentarioMedico;
     }
 
     public Solicitud.estadosPosibles getEstado() {
@@ -27,11 +29,11 @@ public class ModificarSolicitudMedicoDto {
         this.estado = estado;
     }
 
-    public String getComentario() {
-        return comentario;
+    public String getComentarioMedico() {
+        return comentarioMedico;
     }
 
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
+    public void setComentarioMedico(String comentarioMedico) {
+        this.comentarioMedico = comentarioMedico;
     }
 }
