@@ -1,22 +1,18 @@
 package cl.ucn.dge.salud.visadocertificados.utils;
 
 import cl.ucn.dge.salud.visadocertificados.model.Solicitud;
-import cl.ucn.dge.salud.visadocertificados.service.ServicioSolicitud;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
-import static org.apache.poi.ss.util.CellUtil.createCell;
 
 public class SolicitudesExcelExport {
 
@@ -81,8 +77,6 @@ public class SolicitudesExcelExport {
         for (Solicitud solicitud:listaSolicitudes){
             Row row = sheet.createRow(rowCount++);
             int columnCount = 0;
-
-
 
             createCell(row,columnCount++,String.valueOf(solicitud.getId()),style);
             createCell(row,columnCount++,String.valueOf(solicitud.getEstudiante().getRut()),style);

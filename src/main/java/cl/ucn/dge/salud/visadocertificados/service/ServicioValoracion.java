@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ServicioValoracion {
@@ -64,6 +65,10 @@ public class ServicioValoracion {
             return true;
         }
         return false;
+    }
+
+    public List<Valoracion> getAllValoraciones(){
+        return this.repositorioValoracion.findAll();
     }
 
 }

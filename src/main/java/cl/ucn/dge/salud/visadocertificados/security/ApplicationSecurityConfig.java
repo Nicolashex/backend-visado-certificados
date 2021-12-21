@@ -81,6 +81,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/registro").permitAll()
                 .antMatchers("/v1/documentos/**").permitAll()
                 .antMatchers("/v1/reportes/solicitudes").permitAll()
+                .antMatchers("/v1/reportes/valoraciones").permitAll()
                 .anyRequest()
                 .authenticated();
     }
