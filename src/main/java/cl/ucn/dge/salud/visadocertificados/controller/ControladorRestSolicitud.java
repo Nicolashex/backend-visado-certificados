@@ -218,7 +218,7 @@ public class ControladorRestSolicitud {
          */
         try {
             servicioSolicitud.modificarSolicitudAdministrador(id, cambios.getIdProfesional(),
-                    cambios.getComentario(),
+                    cambios.getComentario(),cambios.getComentarioMedico(),
                     cambios.getEstado());
             mensaje = "Solicitud modificada de forma exitosa";
             return ResponseEntity.status(HttpStatus.OK).body(mensaje);
@@ -238,7 +238,7 @@ public class ControladorRestSolicitud {
         try {
             servicioSolicitud.modificarSolicitudMedico(
                     id, //id solicitud
-                    cambios.getComentario(),
+                    cambios.getComentarioMedico(),
                     cambios.getEstado(), //no null
                     correoMedico);
             mensaje = "Solicitud modificada de forma exitosa";
