@@ -55,6 +55,6 @@ public interface SolicitudDetalladaEstudiante {
     String getRutCarga();
 
     @JsonProperty("isValorado")
-    String isValorado();
+    boolean isValorado();
 
 }
