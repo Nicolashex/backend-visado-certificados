@@ -53,4 +53,18 @@ public class ControladorRestEvaluacion {
 
     }
 
+    @GetMapping(value="/estudiante/valoracion/check")
+    public ResponseEntity<String> hasValoracion (@RequestParam Long idSolicitud){
+
+        String mensaje;
+
+        try{
+            mensaje = servicioValoracion.hasValidacion(idSolicitud) == true ? "Solicitud valorada" : "Solicitud no valorada";
+            return ResponseEntity.status(HttpStatus.OK).body(mensaje);
+        } catch (InternalError e) {
+            mensaje = e.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje);
+        }
+    }
+
 }

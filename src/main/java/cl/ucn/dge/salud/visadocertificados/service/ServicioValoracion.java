@@ -36,6 +36,12 @@ public class ServicioValoracion {
             throw new IOException("Solicitud invalida");
         } else if (!solicitud.getEstado().equals(Solicitud.estadosPosibles.APROBADO)) {
             throw new IOException("Solicitud no finalizada");
+        } else if(hasValidacion(solicitud.getId())){
+            throw new IOException("Solicitud ya cuenta con valoracion");
+        }else if (cuerpoValoracion.getValoracion1() == null ||
+                    cuerpoValoracion.getValoracion2() == null ||
+                    cuerpoValoracion.getValoracion3() == null){
+            throw new IOException("Se necesitan valoraciones");
         }
 
         Valoracion valoracion = new Valoracion(
@@ -49,5 +55,15 @@ public class ServicioValoracion {
         return repositorioValoracion.save(valoracion);
     }
 
+    @Transactional
+    public boolean hasValidacion(Long idSolicitud){
+
+        Solicitud solicitud = this.servicioSolicitud.getSolicitudById(idSolicitud);
+
+        if(this.repositorioValoracion.existsBySolicitud(solicitud)){
+            return true;
+        }
+        return false;
+    }
 
 }
