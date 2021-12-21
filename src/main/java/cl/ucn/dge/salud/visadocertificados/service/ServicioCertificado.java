@@ -25,6 +25,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServicioCertificado {
@@ -50,6 +51,9 @@ public class ServicioCertificado {
     }
 
 
+    public Optional<Certificado> existeCertificado(String id){
+        return this.repositorioCertificado.findById(id);
+    }
 
     public byte[] crearPDF(Solicitud solicitud) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

@@ -157,6 +157,7 @@ public class ServicioSolicitud {
                 }
                 //solicitud.setComentario(comentario);
                 solicitud.setComentarioMedico(comentarioMedico);
+                solicitud.setComentario(comentario);
                 User medico = servicioUsuario.getUsuarioById(idProfesional);
                 solicitud.setIdProfesional(medico);
 

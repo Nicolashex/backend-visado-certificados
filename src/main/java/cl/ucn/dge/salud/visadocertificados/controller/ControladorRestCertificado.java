@@ -1,7 +1,9 @@
 package cl.ucn.dge.salud.visadocertificados.controller;
 
+import cl.ucn.dge.salud.visadocertificados.dto.RespuestaValidacionDto;
 import cl.ucn.dge.salud.visadocertificados.model.Certificado;
 import cl.ucn.dge.salud.visadocertificados.model.Documento;
+import cl.ucn.dge.salud.visadocertificados.model.Solicitud;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioCertificado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -24,7 +26,7 @@ public class ControladorRestCertificado {
         this.servicioCertificado = servicioCertificado;
     }
 
-    @GetMapping("/certificado/{id}")
+    @GetMapping("/certificados/{id}")
     public ResponseEntity<byte[]> getFile(@PathVariable String id) {
         Certificado certificado = servicioCertificado.getCertificadoPorId(id);
         String aux = "pdf";
@@ -34,6 +36,24 @@ public class ControladorRestCertificado {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""
                         + certificado.getId() + "." + aux +"\"")
                 .body(data);
+    }
+    @GetMapping("/certificados/validar/{id}")
+    public RespuestaValidacionDto validarCertificado(@PathVariable String id){
+        boolean esValido = false;
+        String mensaje ="";
+        if(this.servicioCertificado.existeCertificado(id).isPresent()){
+            esValido = true;
+            Solicitud solicitud = this.servicioCertificado.getCertificadoPorId(id).getSolicitud();
+            mensaje = "El certificado es valido y fue emitido en la fecha: " +
+                    solicitud.getFechaFinSolicitud().toLocalDate() + " para el alumno con RUT:" +
+                    solicitud.getEstudiante().getRut() + " con fecha de reposo de termino para: "+
+                    solicitud.getFechaFinReposo() + ".";
+        }
+        else{
+            mensaje = "El certificado no es valido";
+        }
+        RespuestaValidacionDto respuesta = new RespuestaValidacionDto(esValido, mensaje);
+        return respuesta;
     }
 
 }
