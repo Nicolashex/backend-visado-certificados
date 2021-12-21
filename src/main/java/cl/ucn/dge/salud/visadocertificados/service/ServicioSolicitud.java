@@ -28,16 +28,14 @@ import java.util.Optional;
 @Service
 public class ServicioSolicitud {
 
-
-
     @Autowired
     private final RepositorioSolicitud repositorioSolicitud;
 
     @Autowired
-    private  final ServicioDocumento servicioDocumento;
+    private final ServicioDocumento servicioDocumento;
 
     @Autowired
-    private  final ServicioUsuario servicioUsuario;
+    private final ServicioUsuario servicioUsuario;
 
     @Autowired
     private final ServicioCarrera servicioCarrera;

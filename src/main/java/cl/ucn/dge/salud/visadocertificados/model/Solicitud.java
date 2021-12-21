@@ -50,7 +50,6 @@ public class Solicitud {
     @Column(name="estado",columnDefinition = "varchar(255) default 'Ingresada'" )
     private estadosPosibles estado;
 
-    //TODO: Eliminar ya no se utiliza
     @Column(name="resolucion",columnDefinition = "varchar(255) default 'Por evaluar'" )
     private String resolucion;
 
@@ -90,6 +89,9 @@ public class Solicitud {
     @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User idProfesional;
 
+    @Column(name = "is_valorado",nullable = false)
+    private boolean isValorado;
+
     public Solicitud() {
     }
 
@@ -107,6 +109,15 @@ public class Solicitud {
         this.esCarga = esCarga;
         this.nombreCarga = nombreCarga;
         this.estado = estadosPosibles.INGRESADO;
+        this.isValorado = false;
+    }
+
+    public boolean isValorado() {
+        return isValorado;
+    }
+
+    public void setValorado(boolean valorado) {
+        isValorado = valorado;
     }
 
     public Long getId() {

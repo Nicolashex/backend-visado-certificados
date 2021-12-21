@@ -53,6 +53,8 @@ public class ServicioValoracion {
                 cuerpoValoracion.getValoracion3(),
                 cuerpoValoracion.getComentario());
 
+        solicitud.setValorado(true);
+
         return repositorioValoracion.save(valoracion);
     }
 
