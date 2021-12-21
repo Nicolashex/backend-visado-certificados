@@ -90,6 +90,11 @@ public class Solicitud {
     @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User idProfesional;
 
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="id_certificado",referencedColumnName = "id")
+    private Certificado certificado;
+
     public Solicitud() {
     }
 
@@ -269,6 +274,13 @@ public class Solicitud {
         this.idProfesional = idProfesional;
     }
 
+    public Certificado getCertificado() {
+        return certificado;
+    }
+
+    public void setCertificado(Certificado certificado) {
+        this.certificado = certificado;
+    }
 
     public enum estadosPosibles {
 
@@ -286,9 +298,9 @@ public class Solicitud {
     }
 
     public void agregarDocumentos(List<Documento> lista){
-
         documentos.addAll(lista);
-
     }
+
+
 
 }

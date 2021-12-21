@@ -2,12 +2,14 @@ package cl.ucn.dge.salud.visadocertificados.service;
 
 import cl.ucn.dge.salud.visadocertificados.cuerpo_entidad.CuerpoSolicitud;
 import cl.ucn.dge.salud.visadocertificados.dto.ModificarSolicitudEstudianteDto;
+import cl.ucn.dge.salud.visadocertificados.model.Certificado;
 import cl.ucn.dge.salud.visadocertificados.model.Documento;
 import cl.ucn.dge.salud.visadocertificados.model.Solicitud;
 import cl.ucn.dge.salud.visadocertificados.model.User;
 import cl.ucn.dge.salud.visadocertificados.projection.*;
 import cl.ucn.dge.salud.visadocertificados.repository.RepositorioSolicitud;
 import cl.ucn.dge.salud.visadocertificados.service.email.EmailService;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -40,18 +42,18 @@ public class ServicioSolicitud {
     private  final ServicioUsuario servicioUsuario;
 
     @Autowired
-    private final ServicioCarrera servicioCarrera;
+    private final ServicioCertificado servicioCertificado;
 
     @Autowired
     private final EmailService emailService;
 
     public ServicioSolicitud(RepositorioSolicitud repositorioSolicitud,
                              ServicioDocumento servicioDocumento,
-                             ServicioUsuario servicioUsuario, ServicioCarrera servicioCarrera, EmailService emailService) {
+                             ServicioUsuario servicioUsuario, ServicioCertificado servicioCertificado, EmailService emailService) {
         this.repositorioSolicitud = repositorioSolicitud;
         this.servicioDocumento = servicioDocumento;
         this.servicioUsuario = servicioUsuario;
-        this.servicioCarrera = servicioCarrera;
+        this.servicioCertificado = servicioCertificado;
         this.emailService = emailService;
     }
     @Transactional
@@ -139,7 +141,7 @@ public class ServicioSolicitud {
 
     @Transactional
     public void modificarSolicitudAdministrador(Long id, Long idProfesional,
-                                                String comentario,
+                                                String comentario, String comentarioMedico,
                                                 Solicitud.estadosPosibles estado) throws IOException, MessagingException {
 
         Optional<Solicitud> existeSolicitud = repositorioSolicitud.findById(id);
@@ -155,7 +157,8 @@ public class ServicioSolicitud {
                 if(!medicoExiste.isPresent()){
                     throw new IOException("No existe un medico con ese id");
                 }
-                solicitud.setComentario(comentario);
+                //solicitud.setComentario(comentario);
+                solicitud.setComentarioMedico(comentarioMedico);
                 User medico = servicioUsuario.getUsuarioById(idProfesional);
                 solicitud.setIdProfesional(medico);
 
@@ -184,7 +187,7 @@ public class ServicioSolicitud {
     }
 
     @Transactional
-    public void modificarSolicitudMedico(Long id, String comentario,
+    public void modificarSolicitudMedico(Long id, String comentarioMedico,
                                          Solicitud.estadosPosibles estado,
                                          String correoMedico) throws IOException, MessagingException {
 
@@ -198,7 +201,7 @@ public class ServicioSolicitud {
         }
 
         Solicitud solicitud = repositorioSolicitud.getSolicitudById(id);
-        solicitud.setComentario(comentario);
+        solicitud.setComentarioMedico(comentarioMedico);
         solicitud.setFechaFinSolicitud(LocalDateTime.now());
         solicitud.setRespuestaEvaluacion(LocalDateTime.now());
         User estudiante = solicitud.getEstudiante();
@@ -211,6 +214,7 @@ public class ServicioSolicitud {
 
             case APROBADO:
                 solicitud.setEstado(Solicitud.estadosPosibles.APROBADO);
+                solicitud.setCertificado(new Certificado());
                 emailService.notificarEstudianteAprobacionSolicitud(estudiante, solicitud);
                 break;
 

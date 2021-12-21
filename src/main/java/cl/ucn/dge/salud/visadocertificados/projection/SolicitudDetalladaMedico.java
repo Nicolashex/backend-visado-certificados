@@ -38,7 +38,8 @@ public interface SolicitudDetalladaMedico {
 
     List<Documento> getDocumentos();
 
-    String getComentario();
+    @JsonProperty("comentario_medico")
+    String getComentarioMedico();
 
     @Value("#{target.estudiante.correo}")
     String getCorreo();
