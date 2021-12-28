@@ -2,17 +2,13 @@ package cl.ucn.dge.salud.visadocertificados.controller;
 
 
 import cl.ucn.dge.salud.visadocertificados.cuerpo_entidad.CuerpoValoracion;
-import cl.ucn.dge.salud.visadocertificados.model.Solicitud;
 import cl.ucn.dge.salud.visadocertificados.model.Valoracion;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioUsuario;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioValoracion;
-import cl.ucn.dge.salud.visadocertificados.utils.SolicitudesExcelExport;
 import cl.ucn.dge.salud.visadocertificados.utils.ValoracionesExcelExport;
-import cl.ucn.dge.salud.visadocertificados.validacion.ValidacionRut;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

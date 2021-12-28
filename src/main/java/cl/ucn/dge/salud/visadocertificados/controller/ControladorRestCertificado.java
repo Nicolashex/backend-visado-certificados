@@ -2,7 +2,6 @@ package cl.ucn.dge.salud.visadocertificados.controller;
 
 import cl.ucn.dge.salud.visadocertificados.dto.RespuestaValidacionDto;
 import cl.ucn.dge.salud.visadocertificados.model.Certificado;
-import cl.ucn.dge.salud.visadocertificados.model.Documento;
 import cl.ucn.dge.salud.visadocertificados.model.Solicitud;
 import cl.ucn.dge.salud.visadocertificados.service.ServicioCertificado;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.mail.MessagingException;
 
 @RestController
 @RequestMapping("/v1")

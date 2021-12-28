@@ -303,10 +303,5 @@ public class ControladorRestSolicitud {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(mensaje);
         }
     }
-    @GetMapping("/xd")
-    public void testEmail() throws MessagingException {
-        emailService.enviarMensaje("nicolashex1@gmail.com","Prueba de email", "muyy buenas que tal todo");
-
-    }
 
 }
